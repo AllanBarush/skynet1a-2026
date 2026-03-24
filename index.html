@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RiskMathics Operating System — Matrix Labs Group | Racing to Unicorn 2029</title>
+  <meta name="description" content="The operating system of financial education and talent in Latin America. 8 verticals, 26 entities, 33 tools, 6 AI agents, $1B valuation target.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0D0D0D;
+      color: #E8E8E8;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: #00B4A8; text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #00D4C8; }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --teal: #00B4A8;
+      --teal-dark: #007C75;
+      --teal-glow: rgba(0, 180, 168, 0.12);
+      --gold: #B8860B;
+      --navy: #1B3A5C;
+      --purple: #7B2FBE;
+      --indigo: #3F51B5;
+      --coral: #E85D3A;
+      --forest: #2E7D32;
+      --crimson: #C62828;
+      --steel: #4682B4;
+      --pink: #AD1457;
+      --dark-teal: #00695C;
+      --royal: #1565C0;
+      --amber: #FF6F00;
+      --burgundy: #880E4F;
+      --bg-dark: #0D0D0D;
+      --bg-section: #111111;
+      --bg-card: #1A1A1A;
+      --bg-card-hover: #222222;
+      --bg-light: #FAF9F6;
+      --bg-ivory: #F5F1EB;
+      --text-primary: #FFFFFF;
+      --text-secondary: #BDBDBD;
+      --text-muted: #888888;
+      --text-dark: #1A1A1A;
+      --border: rgba(255,255,255,0.06);
+      --border-accent: rgba(0,180,168,0.2);
+      --mono: 'IBM Plex Mono', monospace;
+      --container: 1280px;
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+      --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+      --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    }
+
+    /* ===== LAYOUT ===== */
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--space-8); }
+    .section { padding: var(--space-24) 0; position: relative; }
+    .section--dark { background: var(--bg-dark); }
+    .section--card { background: var(--bg-section); }
+    .section--gradient {
+      background: linear-gradient(180deg, #0D0D0D 0%, #0A1A18 50%, #0D0D0D 100%);
+    }
+    .section--light { background: var(--bg-light); color: var(--text-dark); }
+    .section--ivory { background: var(--bg-ivory); color: var(--text-dark); }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .nav__inner {
+      max-width: var(--container); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-3) var(--space-8); height: 56px;
+    }
+    .nav__brand { display: flex; align-items: center; gap: var(--space-3); }
+    .nav__logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px; color: white;
+    }
+    .nav__title { font-weight: 700; font-size: 14px; letter-spacing: -0.02em; }
+    .nav__sub { font-size: 10px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav__links {
+      display: flex; gap: var(--space-1); list-style: none;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .nav__links::-webkit-scrollbar { display: none; }
+    .nav__link {
+      font-size: 12px; font-weight: 500; color: var(--text-muted);
+      padding: var(--space-2) var(--space-3); border-radius: 6px;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .nav__link:hover, .nav__link.active { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: var(--space-20) var(--space-8);
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -100px; left: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,47,190,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero__content { text-align: center; max-width: 900px; position: relative; z-index: 1; }
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: rgba(0,180,168,0.1); border: 1px solid rgba(0,180,168,0.2);
+      padding: var(--space-2) var(--space-4); border-radius: 100px;
+      font-size: 12px; font-weight: 600; color: var(--teal);
+      letter-spacing: 0.04em; margin-bottom: var(--space-8);
+    }
+    .hero__title {
+      font-size: clamp(40px, 7vw, 80px); font-weight: 800;
+      line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: var(--space-6);
+    }
+    .hero__title span { color: var(--teal); }
+    .hero__subtitle {
+      font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary);
+      max-width: 700px; margin: 0 auto var(--space-12);
+      line-height: 1.7;
+    }
+    .hero__stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: var(--space-4); max-width: 800px; margin: 0 auto;
+    }
+    .hero__stat {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: var(--space-5) var(--space-4);
+      transition: all 0.3s;
+    }
+    .hero__stat:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+    .hero__stat-number {
+      font-family: var(--mono); font-size: 28px; font-weight: 700;
+      color: var(--teal); margin-bottom: var(--space-1);
+    }
+    .hero__stat-label { font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ===== SECTION HEADERS ===== */
+    .section__header { margin-bottom: var(--space-16); max-width: 800px; }
+    .section__number {
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+    .section__title {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: var(--space-5);
+    }
+    .section__desc { font-size: 16px; color: var(--text-secondary); line-height: 1.75; }
+    .section--light .section__desc,
+    .section--ivory .section__desc { color: #6B6B6B; }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: var(--space-8);
+      transition: all 0.3s;
+    }
+    .card:hover { border-color: var(--border-accent); }
+    .card--accent { border-top: 3px solid var(--teal); }
+    .card__overline {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: var(--space-2);
+    }
+    .card__title {
+      font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: var(--space-3); line-height: 1.3;
+    }
+    .card__text { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+    .card__tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: var(--space-1) var(--space-3); border-radius: 100px;
+      background: rgba(0,180,168,0.1); color: var(--teal);
+      letter-spacing: 0.04em; margin-top: var(--space-2);
+    }
+    .card__revenue {
+      display: block; font-family: var(--mono); font-size: 12px;
+      color: var(--gold); margin-top: var(--space-2);
+    }
+
+    /* Light mode cards */
+    .section--light .card, .section--ivory .card {
+      background: white; border-color: rgba(0,0,0,0.06);
+    }
+    .section--light .card__text, .section--ivory .card__text { color: #6B6B6B; }
+    .section--light .card__title, .section--ivory .card__title { color: var(--text-dark); }
+
+    /* ===== GRIDS ===== */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: var(--space-6); }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); }
+    .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-4); }
+
+    /* ===== VERTICAL CARDS ===== */
+    .vert-card { position: relative; overflow: hidden; }
+    .vert-card__accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .vert-card__icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: var(--space-4);
+    }
+    .vert-card__sub {
+      display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4);
+    }
+    .sub-pill {
+      font-size: 11px; font-weight: 500; padding: var(--space-1) var(--space-3);
+      border-radius: 100px; border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    /* ===== MOAT TABLE ===== */
+    .moat-table { width: 100%; border-collapse: collapse; margin-top: var(--space-8); }
+    .moat-table th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+      padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border);
+    }
+    .moat-table td {
+      padding: var(--space-4); border-bottom: 1px solid var(--border);
+      font-size: 14px; vertical-align: top;
+    }
+    .moat-table tr:hover { background: rgba(0,180,168,0.03); }
+    .moat-value { font-family: var(--mono); font-weight: 600; color: var(--teal); }
+
+    /* ===== TOOL LAYER ===== */
+    .layer {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: var(--space-4);
+      overflow: hidden;
+    }
+    .layer__header {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .layer__header:hover { background: rgba(255,255,255,0.02); }
+    .layer__icon { font-size: 20px; }
+    .layer__name { font-weight: 700; font-size: 15px; }
+    .layer__count {
+      margin-left: auto; font-family: var(--mono); font-size: 12px;
+      color: var(--teal); background: rgba(0,180,168,0.1);
+      padding: var(--space-1) var(--space-3); border-radius: 100px;
+    }
+    .layer__tools {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px; background: var(--border);
+    }
+    .tool {
+      background: var(--bg-dark); padding: var(--space-5) var(--space-6);
+    }
+    .tool__name { font-weight: 600; font-size: 14px; margin-bottom: var(--space-1); }
+    .tool__desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== AGENT CARDS ===== */
+    .agent-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, #1E1E2E 100%);
+      border: 1px solid rgba(123,47,190,0.15);
+      position: relative; overflow: hidden;
+    }
+    .agent-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--teal));
+    }
+    .agent-card__num {
+      font-family: var(--mono); font-size: 48px; font-weight: 800;
+      color: rgba(123,47,190,0.15); position: absolute; top: 12px; right: 16px;
+    }
+    .agent-card__role {
+      font-size: 11px; font-weight: 600; color: var(--purple);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);
+    }
+
+    /* ===== REVENUE TABLE ===== */
+    .rev-table { width: 100%; border-collapse: collapse; }
+    .rev-table th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;
+      padding: var(--space-3) var(--space-4); border-bottom: 2px solid var(--border);
+    }
+    .rev-table td {
+      padding: var(--space-4); border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .rev-table .mono { font-family: var(--mono); font-weight: 600; }
+    .rev-table .teal { color: var(--teal); }
+    .rev-table .gold { color: var(--gold); }
+
+    /* ===== FLYWHEEL ===== */
+    .flywheel-item {
+      display: flex; gap: var(--space-6); align-items: flex-start;
+      padding: var(--space-6) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .flywheel-item:last-child { border-bottom: none; }
+    .flywheel__icon {
+      width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; background: rgba(0,180,168,0.1);
+    }
+    .flywheel__path {
+      font-weight: 700; font-size: 15px; margin-bottom: var(--space-2);
+    }
+    .flywheel__arrow { color: var(--teal); margin: 0 var(--space-2); }
+    .flywheel__desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ===== AUTOMATION TABS ===== */
+    .tabs {
+      display: flex; gap: var(--space-2); margin-bottom: var(--space-8);
+      overflow-x: auto; scrollbar-width: none; padding-bottom: var(--space-2);
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+      padding: var(--space-2) var(--space-5); border-radius: 100px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-muted); cursor: pointer; white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { border-color: var(--teal); color: var(--text-primary); }
+    .tab-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ===== AUTOMATION TABLE ===== */
+    .auto-table { width: 100%; border-collapse: collapse; }
+    .auto-table th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;
+      padding: var(--space-3) var(--space-4); border-bottom: 2px solid var(--border);
+      position: sticky; top: 0; background: var(--bg-card);
+    }
+    .auto-table td {
+      padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .auto-table tr:hover { background: rgba(0,180,168,0.03); }
+    .auto-table-wrap {
+      max-height: 500px; overflow-y: auto; border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 100px; letter-spacing: 0.04em;
+    }
+    .badge--critical { background: rgba(198,40,40,0.15); color: #EF5350; }
+    .badge--high { background: rgba(255,111,0,0.15); color: #FF9800; }
+    .badge--medium { background: rgba(70,130,180,0.15); color: #64B5F6; }
+    .badge--agent { background: rgba(123,47,190,0.15); color: #BA68C8; }
+
+    /* ===== ROADMAP ===== */
+    .roadmap { position: relative; padding-left: var(--space-10); }
+    .roadmap::before {
+      content: ''; position: absolute; left: 16px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, var(--teal), var(--purple));
+    }
+    .roadmap__item {
+      position: relative; margin-bottom: var(--space-10);
+    }
+    .roadmap__dot {
+      position: absolute; left: calc(-1 * var(--space-10) + 8px); top: 4px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--teal); border: 3px solid var(--bg-dark);
+    }
+    .roadmap__year {
+      font-family: var(--mono); font-size: 14px; font-weight: 700;
+      color: var(--teal); margin-bottom: var(--space-2);
+    }
+    .roadmap__title { font-size: 18px; font-weight: 700; margin-bottom: var(--space-2); }
+    .roadmap__text { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+    .roadmap__val {
+      font-family: var(--mono); font-size: 24px; font-weight: 700;
+      color: var(--gold); margin-top: var(--space-2);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: var(--space-16) 0 var(--space-8);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer__brand { font-size: 20px; font-weight: 800; margin-bottom: var(--space-2); }
+    .footer__tagline { font-size: 14px; color: var(--text-muted); margin-bottom: var(--space-6); }
+    .footer__stats {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: var(--space-4); margin-bottom: var(--space-8);
+      font-size: 12px; color: var(--text-muted);
+    }
+    .footer__legal { font-size: 11px; color: var(--text-muted); }
+
+    /* ===== UTILITIES ===== */
+    .mt-4 { margin-top: var(--space-4); }
+    .mt-6 { margin-top: var(--space-6); }
+    .mt-8 { margin-top: var(--space-8); }
+    .mt-12 { margin-top: var(--space-12); }
+    .mb-8 { margin-bottom: var(--space-8); }
+    .text-center { text-align: center; }
+    .full-span { grid-column: 1 / -1; }
+
+    /* ===== DBU DIVISIONS ===== */
+    .dbu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-6); }
+    .dbu-div {
+      padding: var(--space-5); border-radius: 10px;
+      background: rgba(255,255,255,0.03); border-left: 4px solid;
+    }
+    .dbu-div__title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: var(--space-2);
+    }
+    .dbu-div__programs { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ===== ARCH FLOW ===== */
+    .arch-flow { max-width: 900px; margin: 0 auto; }
+    .arch-label {
+      font-size: 11px; font-weight: 600; color: var(--teal);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      text-align: center; margin-bottom: var(--space-3);
+    }
+    .arch-row {
+      display: flex; flex-wrap: wrap; gap: var(--space-3);
+      justify-content: center; margin-bottom: var(--space-2);
+    }
+    .arch-node {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: var(--space-3) var(--space-5); border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+    }
+    .arch-node--core {
+      background: rgba(0,180,168,0.1); border-color: var(--teal);
+      font-weight: 700; color: var(--teal);
+    }
+    .arch-node--input { border-color: rgba(255,255,255,0.1); }
+    .arch-node--output { border-color: rgba(123,47,190,0.2); }
+    .arch-arrow { text-align: center; padding: var(--space-2); color: var(--text-muted); font-size: 18px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .container { padding: 0 var(--space-5); }
+      .section { padding: var(--space-16) 0; }
+      .nav__links { display: none; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .hero__stats { grid-template-columns: repeat(3, 1fr); }
+      .layer__tools { grid-template-columns: 1fr; }
+    }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">
+      <div class="nav__logo">RM</div>
+      <div>
+        <div class="nav__title">RiskMathics OS</div>
+        <div class="nav__sub">Matrix Labs Group</div>
+      </div>
+    </div>
+    <ul class="nav__links">
+      <li><a href="#hero" class="nav__link active">Home</a></li>
+      <li><a href="#executive" class="nav__link">Executive</a></li>
+      <li><a href="#verticals" class="nav__link">8 Verticals</a></li>
+      <li><a href="#tech" class="nav__link">33 Tools</a></li>
+      <li><a href="#automations" class="nav__link">Automations</a></li>
+      <li><a href="#agents" class="nav__link">AI Agents</a></li>
+      <li><a href="#revenue" class="nav__link">Revenue</a></li>
+      <li><a href="#flywheel" class="nav__link">Flywheel</a></li>
+      <li><a href="#roadmap" class="nav__link">Roadmap</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero__content">
+    <div class="hero__badge">Racing to Unicorn &mdash; $1B Valuation 2029</div>
+    <h1 class="hero__title">
+      RiskMathics<br><span>Operating System</span>
+    </h1>
+    <p class="hero__subtitle">
+      The operating system of financial education and talent in Latin America.
+      20+ years building the definitive ecosystem &mdash; education, technology, media, and community &mdash;
+      from Mexico City to the world. Powered by Matrix Labs Group.
+    </p>
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <div class="hero__stat-number">8</div>
+        <div class="hero__stat-label">Verticals</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">26</div>
+        <div class="hero__stat-label">Entities</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">33</div>
+        <div class="hero__stat-label">Tools</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">6</div>
+        <div class="hero__stat-label">AI Agents</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">28+</div>
+        <div class="hero__stat-label">Automations</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">$28M</div>
+        <div class="hero__stat-label">ARR Target 2028</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 01: EXECUTIVE OVERVIEW ===== -->
+<section class="section section--dark" id="executive">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 01</div>
+      <h2 class="section__title">Executive Overview</h2>
+      <p class="section__desc">
+        RiskMathics Financial Institute has spent 20+ years building the most comprehensive financial education ecosystem in Latin America.
+        Headquartered in Mexico City, we are architecting the operating system that unifies education, talent, media, and technology into a single platform &mdash;
+        targeting unicorn valuation by 2029 with $28M ARR by 2028.
+      </p>
+    </div>
+
+    <div class="grid-3 fade-in">
+      <div class="card card--accent">
+        <div class="card__overline">Vision</div>
+        <div class="card__title">The Operating System of Financial Education &amp; Talent</div>
+        <div class="card__text">
+          We are not a school, not a media company, not a tech platform &mdash; we are ALL of these, integrated into a single operating system.
+          Our moat is the 20-year ecosystem of relationships, certifications, and institutional trust that no startup can replicate.
+        </div>
+      </div>
+      <div class="card card--accent">
+        <div class="card__overline">Capital Raise</div>
+        <div class="card__title">$30M+ Raise, Unicorn 2029</div>
+        <div class="card__text">
+          With $3M baseline revenue, multiple revenue streams across 8 verticals, and a clear path to scale via technology and AI agents,
+          we are raising capital to accelerate the platform build-out and expand across Latin America.
+        </div>
+      </div>
+      <div class="card card--accent">
+        <div class="card__overline">Scale</div>
+        <div class="card__title">624 Matrix Intersections</div>
+        <div class="card__text">
+          Our ecosystem maps 26 entities across 24 channels creating 624 strategic intersections.
+          Each intersection is a growth lever &mdash; a specific combination of product, channel, and audience that drives revenue.
+        </div>
+      </div>
+    </div>
+
+    <!-- Moat Table -->
+    <div class="mt-12 fade-in">
+      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: var(--space-4);">The Competitive Moat &mdash; $130M+ Intrinsic Value</h3>
+      <div style="overflow-x: auto;">
+        <table class="moat-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Description</th>
+              <th>Time to Replicate</th>
+              <th>Intrinsic Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;">CONSAR + CNSF Certification</td>
+              <td>Only private institution with regulatory authority for derivatives training. Official government endorsement.</td>
+              <td>10-15 years</td>
+              <td class="moat-value">$50M+</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">C-Suite Network (20 Years)</td>
+              <td>15,000+ professionals in CFO, CRO, Treasurer, Risk Director roles at 1,200+ institutions across LATAM.</td>
+              <td>Impossible to buy</td>
+              <td class="moat-value">$30M+</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Proprietary Content</td>
+              <td>500+ hours of advanced financial content, quantitative models, LATAM case studies, proprietary datasets.</td>
+              <td>3-5 years + $5M</td>
+              <td class="moat-value">$20M+</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Authority Brand</td>
+              <td>Top 3 organic search for "risk management", "derivatives", "private wealth management" in Mexico &amp; Colombia.</td>
+              <td>5-10 years</td>
+              <td class="moat-value">$15M+</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Alumni Community</td>
+              <td>15,000 active professionals in Discord, WhatsApp, LinkedIn. Network effect: every alumnus is a referrer.</td>
+              <td>Inherent to time</td>
+              <td class="moat-value">$10M+</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Tech Infrastructure</td>
+              <td>33 integrated tools, 6 AI agents, 28+ automations. Scalable operation without proportional cost growth.</td>
+              <td>12-18 months + $2M</td>
+              <td class="moat-value">$5M+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Market Opportunity -->
+    <div class="grid-4 mt-12 fade-in">
+      <div class="card" style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--teal);">$4.2B</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">TAM LATAM 2026</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--teal);">$126M</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">SAM Addressable</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--teal);">18%</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">CAGR 2024-2028</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--teal);">1,200+</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Target Institutions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 02: 8 VERTICALS — 26 ENTITIES ===== -->
+<section class="section section--gradient" id="verticals">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 02</div>
+      <h2 class="section__title">8 Verticals &mdash; 26 Entities</h2>
+      <p class="section__desc">
+        The RiskMathics ecosystem operates under deliberate interdependence: each entity serves the others as a capture channel,
+        credibility source, and upsell platform. A student who touches 3+ entities has an LTV of $45,000+ vs $2,000 for a single course.
+      </p>
+    </div>
+
+    <!-- V01: CORE EDUCATION -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,180,168,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F393;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;">Vertical 01</div>
+          <div style="font-size:20px;font-weight:700;">Core Education</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline" style="color:var(--teal);">P0 &mdash; Core Hub</div>
+          <div class="card__title">RiskMathics Financial Institute</div>
+          <div class="card__tag">B2B + B2C &middot; $50K-$500K Corp / $1K-$5K Individual</div>
+          <div class="card__text mt-4">Central hub of the ecosystem. 20+ years of authority. CONSAR/CNSF certified. Mandatory regulatory courses for the financial sector. 80,000+ contacts. The nucleus that powers everything.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline" style="color:var(--teal);">P0 &mdash; Certifications</div>
+          <div class="card__title">Certificate Institute</div>
+          <div class="card__tag">B2C + B2B &middot; $2,500-$8,000</div>
+          <div class="card__text mt-4">Professional certification programs in risk, derivatives, and markets. Credentials recognized by regulators and employers. Every certification is a permanent link to the RiskMathics brand on a professional's resume.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline" style="color:var(--teal);">P0 &mdash; Flagship Event</div>
+          <div class="card__title">RM&amp;T Conference (RMTC)</div>
+          <div class="card__tag">Sponsors + Tickets &middot; $35K sponsor / $800 ticket</div>
+          <div class="card__revenue">$ 1,500+ attendees &middot; 80+ sponsors &middot; Net margin &gt;85%</div>
+          <div class="card__text mt-4">The definitive 4-day industry event featuring speakers like Nassim Taleb and Nick Leeson. The ecosystem's annual showcase &mdash; brand-building machine that drives corporate relationships, media coverage, and talent recruitment.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline" style="color:var(--teal);">P0 &mdash; Enterprise B2B</div>
+          <div class="card__title">Corporate Training Division</div>
+          <div class="card__tag">B2B Enterprise &middot; $250K-$1M+ annual contracts</div>
+          <div class="card__text mt-4">In-company customized programs. Mandatory regulatory content. Multi-year contracts with top LATAM financial institutions: banks, pension funds (Afores), insurance companies, brokerage houses.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V02: WEALTH MANAGEMENT -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(184,134,11,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F48E;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;">Vertical 02</div>
+          <div style="font-size:20px;font-weight:700;">Wealth Management</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--gold);">
+          <div class="card__overline" style="color:var(--gold);">P1 &mdash; Premium</div>
+          <div class="card__title">Private Wealth Management Institute (PWMI)</div>
+          <div class="card__tag">B2C + B2B &middot; $3,000-$15,000 &middot; 7 Months / 225 Hours</div>
+          <div class="card__text mt-4">The crown jewel. A 7-month, 225-hour executive program with three routes: Sell Side, Buy Side, and Next Gen. Speakers include CEOs from HSBC, Santander, Credit Suisse, UBS, and JP Morgan. Highest-value program in the ecosystem.</div>
+          <div class="vert-card__sub">
+            <span class="sub-pill">Sell Side Track</span>
+            <span class="sub-pill">Buy Side Track</span>
+            <span class="sub-pill">Next Gen Track</span>
+          </div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--navy);">
+          <div class="card__overline" style="color:var(--navy);">P1 &mdash; Sub-Brand</div>
+          <div class="card__title">WealthNext Academy</div>
+          <div class="card__tag">B2C &middot; $1,500-$4,000 &middot; 3-Month Bootcamp</div>
+          <div class="card__text mt-4">NextGen division bridging free content to paid programs. Accelerated training for young advisors (25-35). Intensive 3-month bootcamp + mentoring. Partners with family offices and private banks for placement.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V03: QUANTUM FINANCE -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(123,47,190,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x269B;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:0.1em;">Vertical 03</div>
+          <div style="font-size:20px;font-weight:700;">Quantum Finance &amp; Technology</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--purple);">
+          <div class="card__overline" style="color:var(--purple);">P1 &mdash; Tech Lab</div>
+          <div class="card__title">Quantum Computing Labs</div>
+          <div class="card__tag">B2C + B2B &middot; $5,000-$25,000 &middot; Only in Mexico</div>
+          <div class="card__text mt-4">AI, Machine Learning, and Quantum Computing applied to finance. The ONLY institution in Mexico offering these programs. Positions RiskMathics at the absolute frontier of financial technology education.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--indigo);">
+          <div class="card__overline" style="color:var(--indigo);">P1 &mdash; Quant</div>
+          <div class="card__title">Quantum Finance Labs</div>
+          <div class="card__tag">Quantitative Models &middot; Stochastic Calculus &middot; Algo Trading</div>
+          <div class="card__text mt-4">The deep-tech arm for quant professionals. Python, ML, valuation models, HPC. Only LATAM institution at this level in Spanish. Corporate licenses for banks and hedge funds.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--amber);">
+          <div class="card__overline" style="color:var(--amber);">P2 &mdash; Worldwide Differentiator</div>
+          <div class="card__title">Quantum Kids Academy</div>
+          <div class="card__tag">Ages 6-17 &middot; Computational Thinking</div>
+          <div class="card__text mt-4">Computational thinking for children ages 6-17. An absolute worldwide differentiator &mdash; building the next generation of quantitative minds from childhood.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--amber);">
+          <div class="card__overline" style="color:var(--amber);">P2 &mdash; Youth AI</div>
+          <div class="card__title">AI Kids Academy</div>
+          <div class="card__tag">AI, ML &amp; Robotics for Youth</div>
+          <div class="card__text mt-4">AI, Machine Learning, and robotics education for youth. Complementary to Quantum Kids, focused on practical AI applications for the younger generation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V04: DIGITAL BUSINESS -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(232,93,58,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F4BB;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:0.1em;">Vertical 04</div>
+          <div style="font-size:20px;font-weight:700;">Digital Business University (DBU)</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--coral);">
+        <div class="card__overline" style="color:var(--coral);">5 Divisions &middot; 9 Programs</div>
+        <div class="card__title">A Complete University for Financial Professionals</div>
+        <div class="card__text">Five specialized divisions covering wellness, security, financial literacy, and executive education. Includes a partnership with Yale School of Management. This is where RiskMathics expands beyond pure finance into adjacent high-value verticals.</div>
+        <div class="dbu-grid">
+          <div class="dbu-div" style="border-color:#7B1FA2;">
+            <div class="dbu-div__title" style="color:#7B1FA2;">Mental Health Division</div>
+            <div class="dbu-div__programs"><strong>SM-100</strong> (12h) &mdash; Intro to mental health in finance<br><strong>SM-200</strong> (30h) &mdash; Advanced mental wellness</div>
+          </div>
+          <div class="dbu-div" style="border-color:#2E7D32;">
+            <div class="dbu-div__title" style="color:#2E7D32;">Health &amp; Wellness Division</div>
+            <div class="dbu-div__programs"><strong>HW-100</strong> (24h) &mdash; Comprehensive health &amp; wellness for financial professionals</div>
+          </div>
+          <div class="dbu-div" style="border-color:#C62828;">
+            <div class="dbu-div__title" style="color:#C62828;">Corporate &amp; Personal Security</div>
+            <div class="dbu-div__programs"><strong>PS-100</strong> (8h) Basics<br><strong>PS-200</strong> (12-16h) Intermediate<br><strong>PS-300</strong> (8h) Advanced threat</div>
+          </div>
+          <div class="dbu-div" style="border-color:#1565C0;">
+            <div class="dbu-div__title" style="color:#1565C0;">Financial Literacy Division</div>
+            <div class="dbu-div__programs"><strong>EF-100</strong> (20h) &mdash; Financial literacy fundamentals<br><strong>EF-200</strong> (8h) &mdash; Advanced personal finance</div>
+          </div>
+          <div class="dbu-div" style="border-color:#E65100;grid-column:1/-1;">
+            <div class="dbu-div__title" style="color:#E65100;">Executive Education &amp; Business Acceleration</div>
+            <div class="dbu-div__programs"><strong>EX-400</strong> (6 months) &mdash; Executive leadership program<br><strong>EX-500</strong> (4-6 months) &mdash; Yale School of Management partnership program</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2 mt-6">
+        <div class="card vert-card" style="border-top:3px solid var(--steel);">
+          <div class="card__overline" style="color:var(--steel);">P1 &mdash; Lead Gen Engine</div>
+          <div class="card__title">Financial Innovation College</div>
+          <div class="card__tag">MOOCs &middot; $500-$2,500</div>
+          <div class="card__revenue">$ Lead Generation &rarr; Upsell Engine</div>
+          <div class="card__text mt-4">Massive Open Online Courses providing accessible, entry-level financial education. Primary function is lead generation &mdash; every free student enters the ecosystem funnel that upsells into Certificate Institute, Core, and ultimately PWMI.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--burgundy);">
+          <div class="card__overline" style="color:var(--burgundy);">P2 &mdash; Annual Event</div>
+          <div class="card__title">Quantum Annual Conference</div>
+          <div class="card__tag">500+ Attendees &middot; Research Papers &middot; Algo Competitions</div>
+          <div class="card__text mt-4">Specialized annual event for quantitative finance. Research papers, algorithmic competitions, networking. Live coverage by RiskMathics TV. Brings together practitioners, researchers, and corporate sponsors.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V05: LIFESTYLE & RUNNING -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(46,125,50,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F3C3;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--forest);text-transform:uppercase;letter-spacing:0.1em;">Vertical 05</div>
+          <div style="font-size:20px;font-weight:700;">Lifestyle &amp; Running</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card vert-card" style="border-top:3px solid var(--forest);">
+          <div class="card__overline" style="color:var(--forest);">P0 &mdash; Community</div>
+          <div class="card__title">Financial Running</div>
+          <div class="card__tag">5K / 10K / Half Marathon &middot; $200-$500 entry</div>
+          <div class="card__text mt-4">Running events integrated with financial market trivia. 2,000+ participants. Participants answer market questions at checkpoints. Bridges Health &amp; Wellness with the broader community. ROI 5:1.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--forest);">
+          <div class="card__overline" style="color:var(--forest);">P1 &mdash; Brand Movement</div>
+          <div class="card__title">IAM Volatility Movement</div>
+          <div class="card__tag">Merch + Media + Events</div>
+          <div class="card__text mt-4">Cultural movement mixing finance with lifestyle: running, meditation, networking, wellness. Merchandise, content, experiences. Builds brand identity and community belonging.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--royal);">
+          <div class="card__overline" style="color:var(--royal);">P2 &mdash; Retail</div>
+          <div class="card__title">Volatility Shop &mdash; "I'm Volatility"</div>
+          <div class="card__tag">T-shirts $45 &middot; Hoodies $65 &middot; Fashion Brand</div>
+          <div class="card__text mt-4">A lifestyle fashion brand for finance professionals. Every piece worn in public is a walking advertisement for the ecosystem, creating organic brand awareness among the exact demographic we target.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V06: MEDIA & CONTENT -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(173,20,87,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F4FA;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--pink);text-transform:uppercase;letter-spacing:0.1em;">Vertical 06</div>
+          <div style="font-size:20px;font-weight:700;">Media &amp; Content</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--pink);">
+          <div class="card__overline" style="color:var(--pink);">P1 &mdash; Streaming</div>
+          <div class="card__title">RiskMathics TV</div>
+          <div class="card__tag">Subscriptions $29-$99/mo &middot; OTT for Finance</div>
+          <div class="card__text mt-4">Financial content streaming platform. Masterclasses, C-Suite interviews, market analysis, documentaries. The ultimate cross-sell engine &mdash; every show drives awareness and leads to every other vertical.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--dark-teal);">
+          <div class="card__overline" style="color:var(--dark-teal);">P1 &mdash; Premium Community</div>
+          <div class="card__title">Top Finance Hub</div>
+          <div class="card__tag">Memberships $49-$199/mo &middot; Top 5% Finance</div>
+          <div class="card__text mt-4">Premium closed community. Access to deal flow, exclusive research, C-Suite networking, early event access. LinkedIn Groups + Discord premium channels. The inner circle of LATAM finance.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V07: TALENT PLACEMENT -->
+    <div class="fade-in mb-8">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,105,92,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F465;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--dark-teal);text-transform:uppercase;letter-spacing:0.1em;">Vertical 07</div>
+          <div style="font-size:20px;font-weight:700;">Talent &amp; Placement</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--dark-teal);">
+          <div class="card__overline" style="color:var(--dark-teal);">P1 &mdash; Headhunter</div>
+          <div class="card__title">RiskMathics Placement Office</div>
+          <div class="card__tag">15-20% Placement Commission &middot; $15K-$75K per placement</div>
+          <div class="card__text mt-4">Specialized financial headhunter leveraging the 15,000+ alumni base. Closes the ecosystem loop: we educate talent, certify them, and place them. Every graduate is both a candidate and a hiring client.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--crimson);">
+          <div class="card__overline" style="color:var(--crimson);">P0 &mdash; Talent Pipeline</div>
+          <div class="card__title">John Hull Derivatives Award</div>
+          <div class="card__tag">Trading Tournament &middot; Registration Fees + Sponsorships</div>
+          <div class="card__text mt-4">Competitive trading tournament named after the legendary derivatives professor. Winners feed directly to Placement Office. Creates prestige, media coverage via RiskMathics TV, and talent pipeline.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V08: CONSULTING -->
+    <div class="fade-in">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,180,168,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F4BC;</div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;">Vertical 08</div>
+          <div style="font-size:20px;font-weight:700;">Consulting &amp; Advisory</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline">P2 &mdash; Services</div>
+          <div class="card__title">RiskMathics Consulting</div>
+          <div class="card__tag">Project Fees &middot; $50K-$500K per project</div>
+          <div class="card__text mt-4">Risk framework implementation, regulatory compliance, digital transformation of risk areas. Leverages academic credibility to enter as advisors to mid-large financial institutions.</div>
+        </div>
+        <div class="card vert-card" style="border-top:3px solid var(--teal);">
+          <div class="card__overline">P2 &mdash; Regulatory</div>
+          <div class="card__title">Regulatory Advisory Services</div>
+          <div class="card__tag">Retainer $10K-$50K/mo</div>
+          <div class="card__text mt-4">Continuous regulatory compliance advisory. Representation before CNBV, SHCP, CONSAR. Exclusive access through the group's regulatory moat. High-margin recurring revenue.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 03: TECH STACK — 33 TOOLS ===== -->
+<section class="section section--dark" id="tech">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 03</div>
+      <h2 class="section__title">Tech Stack &mdash; 33 Tools in 12 Layers</h2>
+      <p class="section__desc">
+        Hub-and-spoke architecture with HubSpot as the central brain. Every layer is powered by best-in-class tools,
+        connected through automations and AI agents. This is what allows 47 people to generate the output of 470.
+      </p>
+    </div>
+
+    <div class="fade-in">
+      <!-- Layer: Cerebro -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F9E0;</span>
+          <span class="layer__name">Cerebro &mdash; CRM Central</span>
+          <span class="layer__count">1 tool</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">HubSpot</div><div class="tool__desc">Single source of truth. 80K+ contacts, 26 pipelines, lead scoring 0-100, forecast in real-time. Every tool connects back here.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Intelligence -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F50D;</span>
+          <span class="layer__name">Intelligence &mdash; Prospecting &amp; Enrichment</span>
+          <span class="layer__count">6 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Sales Navigator</div><div class="tool__desc">LinkedIn-powered prospecting. Identifies decision makers at target companies for B2B outreach.</div></div>
+          <div class="tool"><div class="tool__name">Lusha</div><div class="tool__desc">Contact data enrichment. Verified emails and phone numbers for prospects.</div></div>
+          <div class="tool"><div class="tool__name">Clay</div><div class="tool__desc">Data orchestration. Chains multiple enrichment sources to build complete prospect profiles.</div></div>
+          <div class="tool"><div class="tool__name">Apollo.io</div><div class="tool__desc">Outbound sequence engine. Personalized email sequences and engagement tracking.</div></div>
+          <div class="tool"><div class="tool__name">PhantomBuster</div><div class="tool__desc">Social media automation. Extracts prospect data and automates LinkedIn connections at scale.</div></div>
+          <div class="tool"><div class="tool__name">Snov.io</div><div class="tool__desc">Email finder and verifier. Discovers professional emails and validates deliverability.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Publishing -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F4E2;</span>
+          <span class="layer__name">Publishing &mdash; Content Distribution</span>
+          <span class="layer__count">4 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Publer</div><div class="tool__desc">Social media scheduler. Plans, publishes, and recycles content across all 10 social platforms.</div></div>
+          <div class="tool"><div class="tool__name">iContact</div><div class="tool__desc">Email marketing. Mailing lists, newsletters, drip campaigns, open rate tracking.</div></div>
+          <div class="tool"><div class="tool__name">Respond.io</div><div class="tool__desc">Omnichannel messaging. Unifies WhatsApp, Telegram, and live chat into single inbox.</div></div>
+          <div class="tool"><div class="tool__name">Canva</div><div class="tool__desc">Design platform. Branded visuals, social media posts, presentations at scale.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Analytics -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F4CA;</span>
+          <span class="layer__name">Analytics &mdash; Measurement &amp; Insights</span>
+          <span class="layer__count">2 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Metricool</div><div class="tool__desc">Social media analytics. Performance tracking, competitor benchmarking, content optimization.</div></div>
+          <div class="tool"><div class="tool__name">Power BI</div><div class="tool__desc">Business intelligence dashboards. CEO dashboard in &lt;5 minutes. 24 critical KPIs in real-time.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Projects -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F4CB;</span>
+          <span class="layer__name">Projects &mdash; Project Management</span>
+          <span class="layer__count">3 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">ClickUp</div><div class="tool__desc">Primary PM. Sprints, editorial calendars, cross-team workflows. Replacing Monday.com.</div></div>
+          <div class="tool"><div class="tool__name">Monday.com</div><div class="tool__desc">Legacy PM (being deprecated). Still used for some operational workflows during transition.</div></div>
+          <div class="tool"><div class="tool__name">Notion</div><div class="tool__desc">Knowledge base. SOPs, meeting notes, strategic plans, institutional memory.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: AI -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F916;</span>
+          <span class="layer__name">AI &mdash; AI Assistants</span>
+          <span class="layer__count">6 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Claude</div><div class="tool__desc">Primary AI for documentation, analysis, strategic content. Auto-documentation with Mermaid.js.</div></div>
+          <div class="tool"><div class="tool__name">ChatGPT</div><div class="tool__desc">General AI for content creation, brainstorming, translation. Integrated into content pipeline.</div></div>
+          <div class="tool"><div class="tool__name">Gemini</div><div class="tool__desc">Google AI for research, data analysis, multimodal content understanding.</div></div>
+          <div class="tool"><div class="tool__name">Perplexity</div><div class="tool__desc">AI research engine. Cited, real-time answers for market research and competitive intelligence.</div></div>
+          <div class="tool"><div class="tool__name">Copilot</div><div class="tool__desc">Microsoft AI integrated into Office 365. Enhances Word, Excel, PowerPoint, Teams.</div></div>
+          <div class="tool"><div class="tool__name">Grok</div><div class="tool__desc">X (Twitter) AI for real-time social intelligence, trend analysis, sentiment monitoring.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Automation -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x26A1;</span>
+          <span class="layer__name">Automation &mdash; Workflow Automation</span>
+          <span class="layer__count">3 tools</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Zapier</div><div class="tool__desc">Point-to-point automation. 13+ Zaps connecting tools with triggers and actions.</div></div>
+          <div class="tool"><div class="tool__name">Make.com</div><div class="tool__desc">Visual automation builder. 15+ complex scenarios with branching logic and multi-step flows.</div></div>
+          <div class="tool"><div class="tool__name">Slack</div><div class="tool__desc">Team communication hub. Receives automated notifications from all systems.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: ERP -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F4B5;</span>
+          <span class="layer__name">ERP &mdash; Enterprise Resource Planning</span>
+          <span class="layer__count">1 tool</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Odoo</div><div class="tool__desc">Full ERP suite. Invoicing, accounting, inventory (Volatility Shop), financial operations. Connected to HubSpot for deal-to-invoice automation.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: LMS -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F393;</span>
+          <span class="layer__name">LMS &mdash; Learning Management</span>
+          <span class="layer__count">1 tool</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Canvas LMS</div><div class="tool__desc">Multi-tenant learning platform. 26 subdominios, auto-enrollment post-payment in &lt;5 min, digital certificates with LinkedIn integration.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: HR -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F464;</span>
+          <span class="layer__name">RRHH &mdash; Human Resources</span>
+          <span class="layer__count">1 tool</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">BambooHR</div><div class="tool__desc">HR management. Payroll, time tracking, performance reviews, employee data for the growing team.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: AI Agents -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F52E;</span>
+          <span class="layer__name">AI Agents</span>
+          <span class="layer__count" style="background:rgba(123,47,190,0.15);color:var(--purple);">NEW v6</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Manus</div><div class="tool__desc">Autonomous portal builder. Web portals, landing pages, microsites without human intervention.</div></div>
+          <div class="tool"><div class="tool__name">OpenClaw</div><div class="tool__desc">Central orchestrator agent. Routes requests to appropriate AI agent or human based on complexity.</div></div>
+          <div class="tool"><div class="tool__name">SkillsMP</div><div class="tool__desc">96K+ specialized skills marketplace. Pre-built AI capabilities agents invoke on demand.</div></div>
+          <div class="tool"><div class="tool__name">Mermaid.js</div><div class="tool__desc">Diagram-as-code engine. Auto-generates flowcharts and architecture diagrams from text.</div></div>
+        </div>
+      </div>
+
+      <!-- Layer: Community -->
+      <div class="layer">
+        <div class="layer__header">
+          <span class="layer__icon">&#x1F30D;</span>
+          <span class="layer__name">Community</span>
+          <span class="layer__count" style="background:rgba(123,47,190,0.15);color:var(--purple);">NEW v6</span>
+        </div>
+        <div class="layer__tools">
+          <div class="tool"><div class="tool__name">Discord</div><div class="tool__desc">Community platform. Alumni discussions, study groups, AI bot interactions, real-time market commentary.</div></div>
+          <div class="tool"><div class="tool__name">Mighty Networks</div><div class="tool__desc">Premium community platform. Gated content, course delivery, member networking for PWMI and Top Finance Hub.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 04: AUTOMATIONS ===== -->
+<section class="section section--card" id="automations">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 04</div>
+      <h2 class="section__title">28+ Automated Flows</h2>
+      <p class="section__desc">
+        From lead capture to certificate delivery, 80% of the process runs without human intervention.
+        Zapier handles linear integrations, Make.com orchestrates complex multi-step scenarios,
+        and AI agents handle the intelligence layer.
+      </p>
+    </div>
+
+    <div class="fade-in">
+      <div class="tabs" id="autoTabs">
+        <button class="tab-btn active" data-tab="auto-critical">Critical (Z01-Z05)</button>
+        <button class="tab-btn" data-tab="auto-high">High (Z06-Z21)</button>
+        <button class="tab-btn" data-tab="auto-medium">Medium (Z11-Z22)</button>
+        <button class="tab-btn" data-tab="auto-make">Make Scenarios</button>
+        <button class="tab-btn" data-tab="auto-agents">Agent Flows</button>
+      </div>
+
+      <!-- Critical -->
+      <div class="tab-content active" id="auto-critical">
+        <div class="auto-table-wrap">
+          <table class="auto-table">
+            <thead><tr><th>ID</th><th>Automation</th><th>Trigger</th><th>Action</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge--critical">Z01</span></td><td style="font-weight:600;">HubSpot Deal Won &rarr; Monday</td><td>Deal status = "Won"</td><td>Creates project in Monday.com</td><td>Instant post-sale project kickoff</td></tr>
+              <tr><td><span class="badge badge--critical">Z02</span></td><td style="font-weight:600;">HubSpot Deal Won &rarr; Odoo</td><td>Deal status = "Won"</td><td>Generates invoice in Odoo</td><td>Automated invoicing, zero billing delays</td></tr>
+              <tr><td><span class="badge badge--critical">Z03</span></td><td style="font-weight:600;">Apollo Reply &rarr; HubSpot</td><td>Prospect replies to sequence</td><td>Updates HubSpot contact &amp; deal</td><td>Hot leads instantly visible in CRM</td></tr>
+              <tr><td><span class="badge badge--critical">Z04</span></td><td style="font-weight:600;">Clay Enriched &rarr; HubSpot</td><td>Clay completes enrichment</td><td>Creates/updates HubSpot contact</td><td>Fresh sales intelligence in CRM</td></tr>
+              <tr><td><span class="badge badge--critical">Z05</span></td><td style="font-weight:600;">HubSpot Form &rarr; iContact</td><td>Form submission</td><td>Adds to iContact mailing list</td><td>Instant nurturing enrollment</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- High -->
+      <div class="tab-content" id="auto-high">
+        <div class="auto-table-wrap">
+          <table class="auto-table">
+            <thead><tr><th>ID</th><th>Automation</th><th>Trigger &rarr; Action</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge--high">Z06</span></td><td style="font-weight:600;">iContact &rarr; HubSpot</td><td>Email engagement &rarr; Update contact score</td><td>Email data feeds lead scoring</td></tr>
+              <tr><td><span class="badge badge--high">Z07</span></td><td style="font-weight:600;">Snov.io &rarr; Monday</td><td>New verified email &rarr; Create task</td><td>Verified prospects enter workflow</td></tr>
+              <tr><td><span class="badge badge--high">Z08</span></td><td style="font-weight:600;">NPS Survey &rarr; iContact</td><td>NPS response &rarr; Segment &amp; sequence</td><td>Promoters get referral; detractors get recovery</td></tr>
+              <tr><td><span class="badge badge--high">Z09</span></td><td style="font-weight:600;">Odoo Payment &rarr; HubSpot</td><td>Invoice paid &rarr; Update deal stage</td><td>Accurate pipeline reporting</td></tr>
+              <tr><td><span class="badge badge--high">Z10</span></td><td style="font-weight:600;">New Contact &rarr; Slack</td><td>New HubSpot contact &rarr; Slack notification</td><td>Team visibility on every new lead</td></tr>
+              <tr><td><span class="badge badge--high">Z18</span></td><td style="font-weight:600;">Deal Stage &rarr; Respond.io</td><td>Deal moves stage &rarr; WhatsApp message</td><td>Automated WhatsApp engagement</td></tr>
+              <tr><td><span class="badge badge--high">Z21</span></td><td style="font-weight:600;">Discord &rarr; HubSpot</td><td>New Discord member &rarr; Create contact</td><td>Community members tracked for cross-sell</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Medium -->
+      <div class="tab-content" id="auto-medium">
+        <div class="auto-table-wrap">
+          <table class="auto-table">
+            <thead><tr><th>ID</th><th>Automation</th><th>Trigger &rarr; Action</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge--medium">Z11</span></td><td style="font-weight:600;">Metricool &rarr; Slack</td><td>Weekly analytics &rarr; Summary</td><td>Automated performance reports</td></tr>
+              <tr><td><span class="badge badge--medium">Z12</span></td><td style="font-weight:600;">ClickUp &rarr; Monday</td><td>Task complete &rarr; Update status</td><td>Cross-platform sync during migration</td></tr>
+              <tr><td><span class="badge badge--medium">Z13</span></td><td style="font-weight:600;">Publer &rarr; Monday</td><td>Post published &rarr; Log in Monday</td><td>Editorial accountability tracking</td></tr>
+              <tr><td><span class="badge badge--medium">Z14</span></td><td style="font-weight:600;">Deal Lost &rarr; ClickUp</td><td>Deal lost &rarr; Create follow-up task</td><td>Win-back workflow triggered</td></tr>
+              <tr><td><span class="badge badge--medium">Z15</span></td><td style="font-weight:600;">Sprint Done &rarr; HubSpot</td><td>Sprint completion &rarr; Update campaign</td><td>Sprint-to-campaign ROI tracking</td></tr>
+              <tr><td><span class="badge badge--medium">Z19</span></td><td style="font-weight:600;">Power BI &rarr; Slack</td><td>KPI threshold breach &rarr; Alert</td><td>No surprises at month-end</td></tr>
+              <tr><td><span class="badge badge--medium">Z22</span></td><td style="font-weight:600;">GitHub &rarr; Slack</td><td>New PR/release &rarr; Notify team</td><td>Engineering visibility</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Make Scenarios -->
+      <div class="tab-content" id="auto-make">
+        <div class="grid-2">
+          <div class="card card--accent"><div class="card__overline" style="color:var(--navy);">M01 &mdash; Pipeline B2B</div><div class="card__title">B2B Multi-Step Pipeline</div><div class="card__text">Sales Nav export &rarr; Clay enrichment &rarr; score &rarr; route to Apollo (cold) or HubSpot (warm) &rarr; branch by industry for personalized sequences.</div></div>
+          <div class="card card--accent"><div class="card__overline" style="color:var(--navy);">M02 &mdash; Editorial</div><div class="card__title">Content Production Pipeline</div><div class="card__text">ClickUp brief &rarr; ChatGPT draft &rarr; Canva template fill &rarr; approval routing &rarr; Publer scheduling &rarr; Metricool tracking &mdash; all automated.</div></div>
+          <div class="card card--accent"><div class="card__overline" style="color:var(--navy);">M03 &mdash; Post-Sale</div><div class="card__title">Post-Sale Orchestration</div><div class="card__text">Deal won &rarr; Odoo invoice &rarr; Canvas LMS enrollment &rarr; Welcome email via iContact &rarr; Discord invite &rarr; NPS survey scheduling.</div></div>
+          <div class="card card--accent"><div class="card__overline" style="color:var(--navy);">M04 &mdash; Smart Alerts</div><div class="card__title">Intelligent Alert System</div><div class="card__text">Monitors HubSpot, Odoo, Metricool for anomalies. Branches by severity: critical &rarr; Slack + WhatsApp, high &rarr; Slack, medium &rarr; daily digest.</div></div>
+        </div>
+      </div>
+
+      <!-- Agent Flows -->
+      <div class="tab-content" id="auto-agents">
+        <div class="grid-3">
+          <div class="card card--accent"><div class="card__overline" style="color:var(--purple);">A01</div><div class="card__title">OpenClaw FAQ Handler</div><div class="card__text">AI agent monitors Discord and WhatsApp for common questions. Routes to knowledge base, generates answers with citations, escalates complex queries to humans.</div></div>
+          <div class="card card--accent"><div class="card__overline" style="color:var(--purple);">A02</div><div class="card__title">Manus Portal Builder</div><div class="card__text">Receives briefs from ClickUp, autonomously constructs landing pages and microsites, deploys to staging, notifies design team via Slack.</div></div>
+          <div class="card card--accent"><div class="card__overline" style="color:var(--purple);">A03</div><div class="card__title">HuggingFace Demo Publisher</div><div class="card__text">Takes completed AI models, creates interactive demos on Hugging Face Spaces, publishes announcements to GitHub, Discord, and LinkedIn.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 05: 6 AI AGENTS ===== -->
+<section class="section section--gradient" id="agents">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 05</div>
+      <h2 class="section__title">6 AI Agents &mdash; The Force Multiplier</h2>
+      <p class="section__desc">
+        Six specialized agents operate 24/7, handling everything from customer queries to autonomous portal construction.
+        This is what transforms a $6M company into a $1B platform &mdash; AI-powered scale without proportional headcount growth.
+        Output equivalent to 60 additional employees at $15K/month.
+      </p>
+    </div>
+
+    <div class="grid-3 fade-in mb-8">
+      <div class="card agent-card">
+        <div class="agent-card__num">01</div>
+        <div class="agent-card__role">Orchestrator</div>
+        <div class="card__title" style="color:var(--text-primary);">OpenClaw</div>
+        <div class="card__text">Central brain that receives ALL incoming requests from WhatsApp, Discord, Telegram, and Slack. Classifies intent, determines complexity, and routes to the appropriate agent or human. The traffic controller of the entire AI layer.</div>
+      </div>
+      <div class="card agent-card">
+        <div class="agent-card__num">02</div>
+        <div class="agent-card__role">Builder</div>
+        <div class="card__title" style="color:var(--text-primary);">Manus</div>
+        <div class="card__text">Autonomous portal constructor. Receives briefs and builds complete web portals, landing pages, and microsites without human coding. Deployed for rapid campaign launches and event microsites.</div>
+      </div>
+      <div class="card agent-card">
+        <div class="agent-card__num">03</div>
+        <div class="agent-card__role">Skill Engine</div>
+        <div class="card__title" style="color:var(--text-primary);">SkillsMP</div>
+        <div class="card__text">Access to 96,000+ specialized AI skills. When an agent needs a specific capability &mdash; financial modeling, data analysis, translation, code generation &mdash; SkillsMP provides it on demand.</div>
+      </div>
+      <div class="card agent-card">
+        <div class="agent-card__num">04</div>
+        <div class="agent-card__role">Documenter</div>
+        <div class="card__title" style="color:var(--text-primary);">Claude + Mermaid</div>
+        <div class="card__text">Automatic documentation engine. Every process, decision, and architecture change is documented in real-time with auto-generated Mermaid.js diagrams. The institutional memory that never forgets.</div>
+      </div>
+      <div class="card agent-card">
+        <div class="agent-card__num">05</div>
+        <div class="agent-card__role">Publisher</div>
+        <div class="card__title" style="color:var(--text-primary);">GitHub + Hugging Face</div>
+        <div class="card__text">Global showcase pipeline. Publishes open-source code, AI model demos, and educational tools. Builds reputation as a tech-forward institution and attracts developer talent.</div>
+      </div>
+      <div class="card agent-card">
+        <div class="agent-card__num">06</div>
+        <div class="agent-card__role">Community Bot</div>
+        <div class="card__title" style="color:var(--text-primary);">OpenClaw in Discord</div>
+        <div class="card__text">24/7 AI community manager. Answers questions, provides course recommendations, moderates discussions, and escalates issues to human staff. Never sleeps, never takes a day off.</div>
+      </div>
+    </div>
+
+    <!-- Agent Orchestration Flow -->
+    <div class="fade-in">
+      <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);text-align:center;margin-bottom:var(--space-8);">Agent Orchestration Flow</h3>
+      <div class="arch-flow">
+        <div class="arch-label">Input Channels</div>
+        <div class="arch-row">
+          <div class="arch-node arch-node--input">&#x1F4F1; WhatsApp</div>
+          <div class="arch-node arch-node--input">&#x1F4AC; Discord</div>
+          <div class="arch-node arch-node--input">&#x2708;&#xFE0F; Telegram</div>
+          <div class="arch-node arch-node--input">&#x1F4BB; Slack</div>
+        </div>
+        <div class="arch-arrow">&#x2B07;&#xFE0F;</div>
+        <div class="arch-label">Orchestrator</div>
+        <div class="arch-row">
+          <div class="arch-node arch-node--core">&#x1F52E; OpenClaw &mdash; Central Brain</div>
+        </div>
+        <div class="arch-arrow">&#x2B07;&#xFE0F;</div>
+        <div class="arch-label">Processing Layer</div>
+        <div class="arch-row">
+          <div class="arch-node">&#x1F527; SkillsMP</div>
+          <div class="arch-node">&#x1F3D7;&#xFE0F; Manus</div>
+          <div class="arch-node">&#x1F4DD; Claude</div>
+          <div class="arch-node">&#x1F464; Human Escalation</div>
+        </div>
+        <div class="arch-arrow">&#x2B07;&#xFE0F;</div>
+        <div class="arch-label">Output Destinations</div>
+        <div class="arch-row">
+          <div class="arch-node arch-node--output">&#x1F4BB; GitHub</div>
+          <div class="arch-node arch-node--output">&#x1F917; Hugging Face</div>
+          <div class="arch-node arch-node--output">&#x1F4D3; Notion</div>
+          <div class="arch-node arch-node--output">&#x1F9E0; HubSpot</div>
+          <div class="arch-node arch-node--output">&#x1F4AC; Slack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 06: REVENUE MODEL ===== -->
+<section class="section section--dark" id="revenue">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 06</div>
+      <h2 class="section__title">Revenue Model &mdash; 6 Diversified Streams</h2>
+      <p class="section__desc">
+        From $3M baseline to $28M ARR by 2028. Six revenue segments with proven unit economics.
+        CAC 60% lower than industry. LTV 3x higher via systematic cross-sell across 26 entities.
+        Operating margin 75%+ on digital verticals.
+      </p>
+    </div>
+
+    <div class="fade-in" style="overflow-x:auto;">
+      <table class="rev-table">
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th>Avg Ticket</th>
+            <th>LTV/CAC</th>
+            <th>% Revenue 2026</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">Enterprise B2B (Corp Licenses)</td>
+            <td class="mono teal">$250,000/yr</td>
+            <td class="mono gold">34:1</td>
+            <td class="mono">27%</td>
+            <td>Annual contracts with banks, Afores, insurance companies. Unlimited platform access + regulatory training.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">SME B2B (Financial SMEs)</td>
+            <td class="mono teal">$45,000/yr</td>
+            <td class="mono gold">18:1</td>
+            <td class="mono">15%</td>
+            <td>Brokerage houses, funds, fintechs. Packages of 10-50 licenses. SDR + LinkedIn outbound sales.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Professional B2C (Premium)</td>
+            <td class="mono teal">$8,500/prog</td>
+            <td class="mono gold">12:1</td>
+            <td class="mono">21%</td>
+            <td>PWMI, Certificate Institute, Quantum Labs. 3-12 month programs. High NPS = referrals.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Mass Market B2C (Accessible)</td>
+            <td class="mono teal">$1,200/prog</td>
+            <td class="mono gold">6:1</td>
+            <td class="mono">9%</td>
+            <td>FIC, DBU, short courses. Meta Ads + YouTube acquisition. Ecosystem entry funnel.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Events &amp; Sponsors (RMTC)</td>
+            <td class="mono teal">$35,000/sponsor</td>
+            <td class="mono gold">45:1</td>
+            <td class="mono">28%</td>
+            <td>Annual conference. 1,500+ attendees, 80+ sponsors. Zero COGS on content. Net margin ~85%.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Media &amp; SaaS (Emerging)</td>
+            <td class="mono teal">$49-$499/mo</td>
+            <td class="mono gold">25:1</td>
+            <td class="mono">N/A</td>
+            <td>RiskMathics TV subscriptions, Top Finance Hub memberships, newsletter premium. MRR.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tech Multiplier Stats -->
+    <div class="grid-3 mt-12 fade-in">
+      <div class="card" style="text-align:center;border-top:2px solid var(--teal);">
+        <div style="font-family:var(--mono);font-size:36px;font-weight:700;color:var(--teal);">60%</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Lower CAC than industry ($85 vs $212)</div>
+      </div>
+      <div class="card" style="text-align:center;border-top:2px solid var(--gold);">
+        <div style="font-family:var(--mono);font-size:36px;font-weight:700;color:var(--gold);">3x</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Higher LTV via systematic cross-sell</div>
+      </div>
+      <div class="card" style="text-align:center;border-top:2px solid var(--purple);">
+        <div style="font-family:var(--mono);font-size:36px;font-weight:700;color:var(--purple);">75%+</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Gross margin on digital verticals</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 07: CROSS-SELL FLYWHEEL ===== -->
+<section class="section section--card" id="flywheel">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 07</div>
+      <h2 class="section__title">Cross-Sell Flywheel</h2>
+      <p class="section__desc">
+        The magic of the ecosystem: every vertical feeds into others. A student who enters through a free MOOC
+        can graduate into premium executive programs, get placed at a top firm, become a corporate client,
+        and eventually appear on RiskMathics TV. The flywheel accelerates with every turn.
+      </p>
+    </div>
+
+    <div class="fade-in">
+      <div class="flywheel-item">
+        <div class="flywheel__icon">&#x1F393;</div>
+        <div>
+          <div class="flywheel__path">
+            Financial Innovation College <span class="flywheel__arrow">&rarr;</span> Certificate Institute <span class="flywheel__arrow">&rarr;</span> RiskMathics Core <span class="flywheel__arrow">&rarr;</span> PWMI <span class="flywheel__arrow">&rarr;</span> Top Finance Hub
+          </div>
+          <div class="flywheel__desc">The primary education-to-placement pipeline. Free MOOCs generate leads, certifications create credibility, core courses build expertise, PWMI creates elite executives, and Top Finance Hub places them &mdash; earning placement fees on talent we educated.</div>
+        </div>
+      </div>
+
+      <div class="flywheel-item">
+        <div class="flywheel__icon">&#x1F3E2;</div>
+        <div>
+          <div class="flywheel__path">
+            DBU (H&amp;W + Mental Health + Security) <span class="flywheel__arrow">&rarr;</span> Executive Education <span class="flywheel__arrow">&rarr;</span> RiskMathics Core
+          </div>
+          <div class="flywheel__desc">The wellness-to-finance bridge. Professionals who enter through health, wellness, or security programs discover the broader financial education offerings and graduate into core programs.</div>
+        </div>
+      </div>
+
+      <div class="flywheel-item">
+        <div class="flywheel__icon">&#x1F3C6;</div>
+        <div>
+          <div class="flywheel__path">
+            John Hull Award <span class="flywheel__arrow">&rarr;</span> Top Finance Hub + RiskMathics TV
+          </div>
+          <div class="flywheel__desc">The talent showcase pipeline. Tournament winners become the most visible candidates for placement, and the competition provides premium content for RiskMathics TV broadcast.</div>
+        </div>
+      </div>
+
+      <div class="flywheel-item">
+        <div class="flywheel__icon">&#x1F3C3;</div>
+        <div>
+          <div class="flywheel__path">
+            Financial Running <span class="flywheel__arrow">&rarr;</span> Volatility Shop + DBU Health &amp; Wellness
+          </div>
+          <div class="flywheel__desc">The lifestyle crossover. Running event participants purchase "I'm Volatility" merchandise and discover DBU's health and wellness programs &mdash; converting recreational engagement into educational revenue.</div>
+        </div>
+      </div>
+
+      <div class="flywheel-item">
+        <div class="flywheel__icon">&#x1F4FA;</div>
+        <div>
+          <div class="flywheel__path">
+            RiskMathics TV <span class="flywheel__arrow">&rarr;</span> ALL Verticals
+          </div>
+          <div class="flywheel__desc">The media amplifier. RiskMathics TV is the ultimate cross-sell engine &mdash; every show, interview, and market commentary drives awareness and leads to every other vertical in the ecosystem. It is the rising tide that lifts all boats.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 08: ROADMAP TO UNICORN ===== -->
+<section class="section section--gradient" id="roadmap">
+  <div class="container">
+    <div class="section__header fade-in">
+      <div class="section__number">Section 08</div>
+      <h2 class="section__title">Roadmap to Unicorn &mdash; $1B by 2029</h2>
+      <p class="section__desc">
+        A clear, data-driven path from $3M baseline to unicorn valuation.
+        Each milestone is backed by specific operational achievements, team growth, and technology deployment.
+      </p>
+    </div>
+
+    <div class="roadmap fade-in">
+      <div class="roadmap__item">
+        <div class="roadmap__dot"></div>
+        <div class="roadmap__year">2024 &mdash; Baseline</div>
+        <div class="roadmap__title">Foundation &amp; Proof of Concept</div>
+        <div class="roadmap__text">Current operation. Team of 10 people. $3M ARR. 20 years of accumulated authority. CONSAR/CNSF certifications. 80K+ contacts in HubSpot. The foundation is built.</div>
+        <div class="roadmap__val">$45M valuation (15x ARR)</div>
+      </div>
+
+      <div class="roadmap__item">
+        <div class="roadmap__dot" style="background:var(--gold);"></div>
+        <div class="roadmap__year">2025 &mdash; Preparation</div>
+        <div class="roadmap__title">Technology Infrastructure &amp; Team Build</div>
+        <div class="roadmap__text">HubSpot fully deployed. First automations live. Make.com + Zapier operational. Team growing to 25. First AI agents deployed. Content machine activated across all channels.</div>
+        <div class="roadmap__val">$90M valuation (18x $5M ARR)</div>
+      </div>
+
+      <div class="roadmap__item">
+        <div class="roadmap__dot" style="background:var(--coral);"></div>
+        <div class="roadmap__year">2026 &mdash; Liftoff</div>
+        <div class="roadmap__title">26 Entities Launched, 6 AI Agents Active</div>
+        <div class="roadmap__text">All 26 entities operational. 33 tools integrated. 28+ automations running. 6 AI agents active 24/7. Team of 47. Series A raised. Revenue acceleration across all verticals.</div>
+        <div class="roadmap__val">$325M valuation (25x $13M ARR)</div>
+      </div>
+
+      <div class="roadmap__item">
+        <div class="roadmap__dot" style="background:var(--purple);"></div>
+        <div class="roadmap__year">2027 &mdash; Acceleration</div>
+        <div class="roadmap__title">LATAM Expansion &amp; Series B</div>
+        <div class="roadmap__text">Expansion to Colombia, Peru, and Central America. Series B raised. Platform becoming the default for financial education in LATAM. Media and SaaS revenue streams maturing.</div>
+        <div class="roadmap__val">$630M valuation (30x $21M ARR)</div>
+      </div>
+
+      <div class="roadmap__item">
+        <div class="roadmap__dot" style="background:linear-gradient(135deg,var(--teal),var(--gold));"></div>
+        <div class="roadmap__year">2028-2029 &mdash; Unicorn</div>
+        <div class="roadmap__title">$1 Billion Valuation Achieved</div>
+        <div class="roadmap__text">Category-defining platform. $28M+ ARR. 35x EdTech multiple. IP premium from CONSAR/CNSF certifications adds $150M+ to base valuation. The operating system of financial education in Latin America.</div>
+        <div class="roadmap__val">$980M+ valuation (35x $28M ARR) + IP Premium = $1B+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand">RiskMathics Financial Institute</div>
+    <div class="footer__tagline">The Operating System of Financial Education &amp; Talent in Latin America</div>
+    <div class="footer__stats">
+      <span>8 Verticals</span><span>&middot;</span>
+      <span>26 Entities</span><span>&middot;</span>
+      <span>33 Tools</span><span>&middot;</span>
+      <span>28+ Automations</span><span>&middot;</span>
+      <span>6 AI Agents</span><span>&middot;</span>
+      <span>624 Intersections</span>
+    </div>
+    <div class="footer__legal">
+      &copy; 2026 RiskMathics Financial Institute &mdash; Matrix Labs Group. Confidential &mdash; Capital Raise Documentation.<br>
+      Mexico City &middot; Racing to Unicorn 2029
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // Tab functionality
+  document.querySelectorAll('.tabs').forEach(tabGroup => {
+    const buttons = tabGroup.querySelectorAll('.tab-btn');
+    const section = tabGroup.closest('section') || tabGroup.parentElement;
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        section.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        const target = document.getElementById(tabId);
+        if (target) target.classList.add('active');
+      });
+    });
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav__link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+
+    // Nav background on scroll
+    const nav = document.getElementById('nav');
+    if (scrollY > 50) {
+      nav.style.background = 'rgba(13,13,13,0.95)';
+    } else {
+      nav.style.background = 'rgba(13,13,13,0.85)';
+    }
+  });
+</script>
+</body>
+</html>
