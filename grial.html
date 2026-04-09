@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RiskMathics — Skynet AI Bootcamp 2026</title>
+  <meta name="rm-source" content="Skynet AI Bootcamp 2026"/>
+  <meta name="description" content="The Grial Form — premium program information request form for RiskMathics Financial Institute." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --bg-soft: rgba(14, 21, 38, 0.76);
+      --panel: rgba(255, 255, 255, 0.07);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --muted-strong: rgba(255, 255, 255, 0.84);
+      --gold: #c9a84c;
+      --gold-soft: rgba(201, 168, 76, 0.28);
+      --gold-bright: #f0d585;
+      --border: rgba(255, 255, 255, 0.12);
+      --error: #ef6b6b;
+      --success: #6fd7a8;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --transition: 180ms ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(201, 168, 76, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(32, 61, 120, 0.26), transparent 34%),
+        linear-gradient(145deg, #070b14 0%, #0a0e1a 55%, #0d1323 100%);
+      color: var(--text);
+    }
+
+    body {
+      font-family: 'Lora', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      inset: auto;
+      width: 34rem;
+      height: 34rem;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      top: -10rem;
+      left: -8rem;
+      background: rgba(201, 168, 76, 0.32);
+    }
+
+    body::after {
+      right: -10rem;
+      bottom: -12rem;
+      background: rgba(54, 103, 192, 0.26);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .form-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.75), rgba(255,255,255,0.14), rgba(201,168,76,0.4));
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), var(--shadow);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      inset: -120%;
+      background: conic-gradient(from 90deg, transparent 0deg, rgba(201,168,76,0.32) 70deg, transparent 130deg, rgba(255,255,255,0.14) 190deg, transparent 260deg, rgba(201,168,76,0.26) 310deg, transparent 360deg);
+      animation: borderRotate 12s linear infinite;
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    .form-inner {
+      position: relative;
+      border-radius: calc(var(--radius-xl) - 1px);
+      padding: 32px 22px;
+      background: linear-gradient(180deg, rgba(10,14,26,0.88), rgba(11,16,31,0.74));
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .eyebrow {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(201, 168, 76, 0.9);
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201,168,76,0.2), rgba(201,168,76,0.95));
+    }
+
+    .brand {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.35rem);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: var(--gold);
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted-strong);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 48ch;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      margin: 26px 0 28px;
+      background: linear-gradient(90deg, rgba(201,168,76,0.1), rgba(201,168,76,0.7), rgba(255,255,255,0.08));
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .field label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .input-wrap {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(201,168,76,0.14), rgba(255,255,255,0.08));
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    .input-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(120deg, rgba(201,168,76,0), rgba(201,168,76,0.35), rgba(255,255,255,0.04), rgba(201,168,76,0));
+      background-size: 220% 220%;
+      opacity: 0;
+      transition: opacity var(--transition);
+      animation: shimmer 4s linear infinite;
+      pointer-events: none;
+    }
+
+    .input-wrap:focus-within {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 0 0 6px rgba(201,168,76,0.08);
+      background: linear-gradient(135deg, rgba(201,168,76,0.65), rgba(255,255,255,0.22), rgba(201,168,76,0.5));
+    }
+
+    .input-wrap:focus-within::before { opacity: 1; }
+
+    input,
+    select {
+      width: 100%;
+      appearance: none;
+      border: 0;
+      outline: none;
+      border-radius: calc(var(--radius-md) - 1px);
+      background: rgba(9, 13, 25, 0.92);
+      color: var(--text);
+      padding: 15px 16px;
+      font: 500 0.98rem/1.4 'Poppins', sans-serif;
+      min-height: 56px;
+    }
+
+    input::placeholder { color: rgba(255,255,255,0.34); }
+
+    select {
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(201,168,76,0.95) 50%),
+        linear-gradient(135deg, rgba(201,168,76,0.95) 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) calc(50% - 2px),
+        calc(100% - 16px) calc(50% - 2px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 44px;
+    }
+
+    select option { color: #111827; }
+
+    .hint,
+    .error-message,
+    .form-message,
+    .success-copy {
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .hint {
+      color: rgba(255,255,255,0.62);
+      margin-top: -2px;
+    }
+
+    .error-message {
+      color: var(--error);
+      display: none;
+      margin-top: -2px;
+    }
+
+    .field.has-error .error-message { display: block; }
+
+    .field.has-error .input-wrap {
+      background: linear-gradient(135deg, rgba(239,107,107,0.95), rgba(255,255,255,0.15), rgba(239,107,107,0.85));
+      box-shadow: 0 0 0 1px rgba(239,107,107,0.25), 0 0 0 6px rgba(239,107,107,0.08);
+    }
+
+    .field.has-error input,
+    .field.has-error select,
+    .field.has-error .iti__tel-input {
+      color: #fff;
+    }
+
+    .iti {
+      width: 100%;
+      display: block;
+    }
+
+    .iti--allow-dropdown input,
+    .iti--separate-dial-code input {
+      padding-left: 96px !important;
+    }
+
+    .iti__selected-flag {
+      padding: 0 14px 0 16px;
+      background: transparent !important;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .iti__country-list {
+      background: #10182d;
+      border: 1px solid rgba(201,168,76,0.2);
+      color: white;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+    }
+
+    .iti__country.iti__highlight,
+    .iti__country:hover {
+      background: rgba(201,168,76,0.12);
+    }
+
+    .iti__dial-code { color: rgba(255,255,255,0.65); }
+
+    .submit-row {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .submit-btn {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 999px;
+      padding: 16px 28px;
+      min-height: 58px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      cursor: pointer;
+      background: linear-gradient(135deg, #a8862b 0%, #c9a84c 34%, #f0d585 100%);
+      color: #0a0e1a;
+      font: 700 0.94rem/1 'Poppins', sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+      box-shadow: 0 16px 34px rgba(201, 168, 76, 0.2);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+      box-shadow: 0 20px 42px rgba(201, 168, 76, 0.28);
+    }
+
+    .submit-btn:disabled {
+      cursor: wait;
+      opacity: 0.9;
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 22%, rgba(255,255,255,0.35) 48%, transparent 72%);
+      transform: translateX(-140%);
+      transition: transform 600ms ease;
+    }
+
+    .submit-btn:hover::after { transform: translateX(140%); }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 2px solid rgba(10,14,26,0.24);
+      border-top-color: #0a0e1a;
+      display: none;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    .submit-btn.is-loading .spinner {
+      display: inline-block;
+    }
+
+    .submit-btn.is-loading .btn-text {
+      opacity: 0.88;
+    }
+
+    .form-message {
+      min-height: 1.6em;
+      color: var(--error);
+      margin: 0;
+    }
+
+    .success-state {
+      display: none;
+      padding: 12px 2px 4px;
+      text-align: center;
+    }
+
+    .success-state.active { display: block; }
+
+    .success-badge {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 22px;
+      background: radial-gradient(circle at top, rgba(240,213,133,0.32), rgba(201,168,76,0.16) 55%, rgba(201,168,76,0.08));
+      border: 1px solid rgba(201,168,76,0.34);
+      box-shadow: inset 0 0 26px rgba(201,168,76,0.12), 0 16px 32px rgba(0,0,0,0.3);
+      color: var(--gold-bright);
+    }
+
+    .success-state h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin: 0 0 10px;
+      color: #fff;
+    }
+
+    .success-copy {
+      color: var(--muted-strong);
+      max-width: 42ch;
+      margin: 0 auto;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0);
+      white-space: nowrap; border: 0;
+    }
+
+    @media (min-width: 720px) {
+      body { padding: 40px; }
+      .form-inner { padding: 42px; }
+      .grid.two-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .field.full { grid-column: 1 / -1; }
+      .submit-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .submit-btn {
+        width: auto;
+        min-width: 290px;
+      }
+      .form-message {
+        text-align: right;
+      }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes borderRotate { to { transform: rotate(360deg); } }
+    @keyframes shimmer {
+      0% { background-position: 200% 50%; }
+      100% { background-position: -20% 50%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="form-card" aria-label="The Grial Form">
+      <div class="form-inner">
+        <div id="formContent">
+          <div class="eyebrow">Executive Admissions</div>
+          <h1 class="brand">RiskMathics Financial Institute</h1>
+          <p class="subtitle">Program Information Request</p>
+          <div class="divider" aria-hidden="true"></div>
+
+          <form id="grialForm" novalidate>
+            <input type="hidden" name="source_course" id="source_course" value="" />
+            <input type="hidden" name="source_url" id="source_url" value="" />
+            <input type="hidden" name="source_name" id="source_name" value="" />
+            <input type="hidden" name="lead_id" id="lead_id" value="" />
+
+            <div class="grid two-col">
+              <div class="field" data-field="first_name">
+                <label for="first_name">First Name</label>
+                <div class="input-wrap">
+                  <input type="text" id="first_name" name="first_name" autocomplete="given-name" required />
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field" data-field="last_name">
+                <label for="last_name">Last Name</label>
+                <div class="input-wrap">
+                  <input type="text" id="last_name" name="last_name" autocomplete="family-name" required />
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field full" data-field="job_title">
+                <label for="job_title">Job Title</label>
+                <div class="input-wrap">
+                  <input type="text" id="job_title" name="job_title" required placeholder="CEO, CFO, CRO, Managing Director..." autocomplete="organization-title" />
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field full" data-field="company_name">
+                <label for="company_name">Company Name</label>
+                <div class="input-wrap">
+                  <input type="text" id="company_name" name="company_name" required autocomplete="organization" />
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field" data-field="country">
+                <label for="country">Country</label>
+                <div class="input-wrap">
+                  <select id="country" name="country" required>
+                    <option value="">Select your country</option>
+                    <option value="Afghanistan">🇦🇫 Afghanistan</option>
+                    <option value="Albania">🇦🇱 Albania</option>
+                    <option value="Algeria">🇩🇿 Algeria</option>
+                    <option value="Andorra">🇦🇩 Andorra</option>
+                    <option value="Angola">🇦🇴 Angola</option>
+                    <option value="Antigua and Barbuda">🇦🇬 Antigua and Barbuda</option>
+                    <option value="Argentina">🇦🇷 Argentina</option>
+                    <option value="Armenia">🇦🇲 Armenia</option>
+                    <option value="Australia">🇦🇺 Australia</option>
+                    <option value="Austria">🇦🇹 Austria</option>
+                    <option value="Azerbaijan">🇦🇿 Azerbaijan</option>
+                    <option value="Bahamas">🇧🇸 Bahamas</option>
+                    <option value="Bahrain">🇧🇭 Bahrain</option>
+                    <option value="Bangladesh">🇧🇩 Bangladesh</option>
+                    <option value="Barbados">🇧🇧 Barbados</option>
+                    <option value="Belarus">🇧🇾 Belarus</option>
+                    <option value="Belgium">🇧🇪 Belgium</option>
+                    <option value="Belize">🇧🇿 Belize</option>
+                    <option value="Benin">🇧🇯 Benin</option>
+                    <option value="Bhutan">🇧🇹 Bhutan</option>
+                    <option value="Bolivia">🇧🇴 Bolivia</option>
+                    <option value="Bosnia and Herzegovina">🇧🇦 Bosnia and Herzegovina</option>
+                    <option value="Botswana">🇧🇼 Botswana</option>
+                    <option value="Brazil">🇧🇷 Brazil</option>
+                    <option value="Brunei">🇧🇳 Brunei</option>
+                    <option value="Bulgaria">🇧🇬 Bulgaria</option>
+                    <option value="Burkina Faso">🇧🇫 Burkina Faso</option>
+                    <option value="Burundi">🇧🇮 Burundi</option>
+                    <option value="Cabo Verde">🇨🇻 Cabo Verde</option>
+                    <option value="Cambodia">🇰🇭 Cambodia</option>
+                    <option value="Cameroon">🇨🇲 Cameroon</option>
+                    <option value="Canada">🇨🇦 Canada</option>
+                    <option value="Central African Republic">🇨🇫 Central African Republic</option>
+                    <option value="Chad">🇹🇩 Chad</option>
+                    <option value="Chile">🇨🇱 Chile</option>
+                    <option value="China">🇨🇳 China</option>
+                    <option value="Colombia">🇨🇴 Colombia</option>
+                    <option value="Comoros">🇰🇲 Comoros</option>
+                    <option value="Congo">🇨🇬 Congo</option>
+                    <option value="Costa Rica">🇨🇷 Costa Rica</option>
+                    <option value="Côte d'Ivoire">🇨🇮 Côte d'Ivoire</option>
+                    <option value="Croatia">🇭🇷 Croatia</option>
+                    <option value="Cuba">🇨🇺 Cuba</option>
+                    <option value="Cyprus">🇨🇾 Cyprus</option>
+                    <option value="Czech Republic">🇨🇿 Czech Republic</option>
+                    <option value="Democratic Republic of the Congo">🇨🇩 Democratic Republic of the Congo</option>
+                    <option value="Denmark">🇩🇰 Denmark</option>
+                    <option value="Djibouti">🇩🇯 Djibouti</option>
+                    <option value="Dominica">🇩🇲 Dominica</option>
+                    <option value="Dominican Republic">🇩🇴 Dominican Republic</option>
+                    <option value="Ecuador">🇪🇨 Ecuador</option>
+                    <option value="Egypt">🇪🇬 Egypt</option>
+                    <option value="El Salvador">🇸🇻 El Salvador</option>
+                    <option value="Equatorial Guinea">🇬🇶 Equatorial Guinea</option>
+                    <option value="Eritrea">🇪🇷 Eritrea</option>
+                    <option value="Estonia">🇪🇪 Estonia</option>
+                    <option value="Eswatini">🇸🇿 Eswatini</option>
+                    <option value="Ethiopia">🇪🇹 Ethiopia</option>
+                    <option value="Fiji">🇫🇯 Fiji</option>
+                    <option value="Finland">🇫🇮 Finland</option>
+                    <option value="France">🇫🇷 France</option>
+                    <option value="Gabon">🇬🇦 Gabon</option>
+                    <option value="Gambia">🇬🇲 Gambia</option>
+                    <option value="Georgia">🇬🇪 Georgia</option>
+                    <option value="Germany">🇩🇪 Germany</option>
+                    <option value="Ghana">🇬🇭 Ghana</option>
+                    <option value="Greece">🇬🇷 Greece</option>
+                    <option value="Grenada">🇬🇩 Grenada</option>
+                    <option value="Guatemala">🇬🇹 Guatemala</option>
+                    <option value="Guinea">🇬🇳 Guinea</option>
+                    <option value="Guinea-Bissau">🇬🇼 Guinea-Bissau</option>
+                    <option value="Guyana">🇬🇾 Guyana</option>
+                    <option value="Haiti">🇭🇹 Haiti</option>
+                    <option value="Honduras">🇭🇳 Honduras</option>
+                    <option value="Hungary">🇭🇺 Hungary</option>
+                    <option value="Iceland">🇮🇸 Iceland</option>
+                    <option value="India">🇮🇳 India</option>
+                    <option value="Indonesia">🇮🇩 Indonesia</option>
+                    <option value="Iran">🇮🇷 Iran</option>
+                    <option value="Iraq">🇮🇶 Iraq</option>
+                    <option value="Ireland">🇮🇪 Ireland</option>
+                    <option value="Israel">🇮🇱 Israel</option>
+                    <option value="Italy">🇮🇹 Italy</option>
+                    <option value="Jamaica">🇯🇲 Jamaica</option>
+                    <option value="Japan">🇯🇵 Japan</option>
+                    <option value="Jordan">🇯🇴 Jordan</option>
+                    <option value="Kazakhstan">🇰🇿 Kazakhstan</option>
+                    <option value="Kenya">🇰🇪 Kenya</option>
+                    <option value="Kiribati">🇰🇮 Kiribati</option>
+                    <option value="Kuwait">🇰🇼 Kuwait</option>
+                    <option value="Kyrgyzstan">🇰🇬 Kyrgyzstan</option>
+                    <option value="Laos">🇱🇦 Laos</option>
+                    <option value="Latvia">🇱🇻 Latvia</option>
+                    <option value="Lebanon">🇱🇧 Lebanon</option>
+                    <option value="Lesotho">🇱🇸 Lesotho</option>
+                    <option value="Liberia">🇱🇷 Liberia</option>
+                    <option value="Libya">🇱🇾 Libya</option>
+                    <option value="Liechtenstein">🇱🇮 Liechtenstein</option>
+                    <option value="Lithuania">🇱🇹 Lithuania</option>
+                    <option value="Luxembourg">🇱🇺 Luxembourg</option>
+                    <option value="Madagascar">🇲🇬 Madagascar</option>
+                    <option value="Malawi">🇲🇼 Malawi</option>
+                    <option value="Malaysia">🇲🇾 Malaysia</option>
+                    <option value="Maldives">🇲🇻 Maldives</option>
+                    <option value="Mali">🇲🇱 Mali</option>
+                    <option value="Malta">🇲🇹 Malta</option>
+                    <option value="Marshall Islands">🇲🇭 Marshall Islands</option>
+                    <option value="Mauritania">🇲🇷 Mauritania</option>
+                    <option value="Mauritius">🇲🇺 Mauritius</option>
+                    <option value="Mexico">🇲🇽 Mexico</option>
+                    <option value="Micronesia">🇫🇲 Micronesia</option>
+                    <option value="Moldova">🇲🇩 Moldova</option>
+                    <option value="Monaco">🇲🇨 Monaco</option>
+                    <option value="Mongolia">🇲🇳 Mongolia</option>
+                    <option value="Montenegro">🇲🇪 Montenegro</option>
+                    <option value="Morocco">🇲🇦 Morocco</option>
+                    <option value="Mozambique">🇲🇿 Mozambique</option>
+                    <option value="Myanmar">🇲🇲 Myanmar</option>
+                    <option value="Namibia">🇳🇦 Namibia</option>
+                    <option value="Nauru">🇳🇷 Nauru</option>
+                    <option value="Nepal">🇳🇵 Nepal</option>
+                    <option value="Netherlands">🇳🇱 Netherlands</option>
+                    <option value="New Zealand">🇳🇿 New Zealand</option>
+                    <option value="Nicaragua">🇳🇮 Nicaragua</option>
+                    <option value="Niger">🇳🇪 Niger</option>
+                    <option value="Nigeria">🇳🇬 Nigeria</option>
+                    <option value="North Korea">🇰🇵 North Korea</option>
+                    <option value="North Macedonia">🇲🇰 North Macedonia</option>
+                    <option value="Norway">🇳🇴 Norway</option>
+                    <option value="Oman">🇴🇲 Oman</option>
+                    <option value="Pakistan">🇵🇰 Pakistan</option>
+                    <option value="Palau">🇵🇼 Palau</option>
+                    <option value="Palestine">🇵🇸 Palestine</option>
+                    <option value="Panama">🇵🇦 Panama</option>
+                    <option value="Papua New Guinea">🇵🇬 Papua New Guinea</option>
+                    <option value="Paraguay">🇵🇾 Paraguay</option>
+                    <option value="Peru">🇵🇪 Peru</option>
+                    <option value="Philippines">🇵🇭 Philippines</option>
+                    <option value="Poland">🇵🇱 Poland</option>
+                    <option value="Portugal">🇵🇹 Portugal</option>
+                    <option value="Qatar">🇶🇦 Qatar</option>
+                    <option value="Romania">🇷🇴 Romania</option>
+                    <option value="Russia">🇷🇺 Russia</option>
+                    <option value="Rwanda">🇷🇼 Rwanda</option>
+                    <option value="Saint Kitts and Nevis">🇰🇳 Saint Kitts and Nevis</option>
+                    <option value="Saint Lucia">🇱🇨 Saint Lucia</option>
+                    <option value="Saint Vincent and the Grenadines">🇻🇨 Saint Vincent and the Grenadines</option>
+                    <option value="Samoa">🇼🇸 Samoa</option>
+                    <option value="San Marino">🇸🇲 San Marino</option>
+                    <option value="Sao Tome and Principe">🇸🇹 Sao Tome and Principe</option>
+                    <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                    <option value="Senegal">🇸🇳 Senegal</option>
+                    <option value="Serbia">🇷🇸 Serbia</option>
+                    <option value="Seychelles">🇸🇨 Seychelles</option>
+                    <option value="Sierra Leone">🇸🇱 Sierra Leone</option>
+                    <option value="Singapore">🇸🇬 Singapore</option>
+                    <option value="Slovakia">🇸🇰 Slovakia</option>
+                    <option value="Slovenia">🇸🇮 Slovenia</option>
+                    <option value="Solomon Islands">🇸🇧 Solomon Islands</option>
+                    <option value="Somalia">🇸🇴 Somalia</option>
+                    <option value="South Africa">🇿🇦 South Africa</option>
+                    <option value="South Korea">🇰🇷 South Korea</option>
+                    <option value="South Sudan">🇸🇸 South Sudan</option>
+                    <option value="Spain">🇪🇸 Spain</option>
+                    <option value="Sri Lanka">🇱🇰 Sri Lanka</option>
+                    <option value="Sudan">🇸🇩 Sudan</option>
+                    <option value="Suriname">🇸🇷 Suriname</option>
+                    <option value="Sweden">🇸🇪 Sweden</option>
+                    <option value="Switzerland">🇨🇭 Switzerland</option>
+                    <option value="Syria">🇸🇾 Syria</option>
+                    <option value="Taiwan">🇹🇼 Taiwan</option>
+                    <option value="Tajikistan">🇹🇯 Tajikistan</option>
+                    <option value="Tanzania">🇹🇿 Tanzania</option>
+                    <option value="Thailand">🇹🇭 Thailand</option>
+                    <option value="Timor-Leste">🇹🇱 Timor-Leste</option>
+                    <option value="Togo">🇹🇬 Togo</option>
+                    <option value="Tonga">🇹🇴 Tonga</option>
+                    <option value="Trinidad and Tobago">🇹🇹 Trinidad and Tobago</option>
+                    <option value="Tunisia">🇹🇳 Tunisia</option>
+                    <option value="Turkey">🇹🇷 Turkey</option>
+                    <option value="Turkmenistan">🇹🇲 Turkmenistan</option>
+                    <option value="Tuvalu">🇹🇻 Tuvalu</option>
+                    <option value="Uganda">🇺🇬 Uganda</option>
+                    <option value="Ukraine">🇺🇦 Ukraine</option>
+                    <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+                    <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                    <option value="United States">🇺🇸 United States</option>
+                    <option value="Uruguay">🇺🇾 Uruguay</option>
+                    <option value="Uzbekistan">🇺🇿 Uzbekistan</option>
+                    <option value="Vanuatu">🇻🇺 Vanuatu</option>
+                    <option value="Vatican City">🇻🇦 Vatican City</option>
+                    <option value="Venezuela">🇻🇪 Venezuela</option>
+                    <option value="Vietnam">🇻🇳 Vietnam</option>
+                    <option value="Yemen">🇾🇪 Yemen</option>
+                    <option value="Zambia">🇿🇲 Zambia</option>
+                    <option value="Zimbabwe">🇿🇼 Zimbabwe</option>
+                  </select>
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field" data-field="mobile_whatsapp">
+                <label for="mobile_whatsapp">Mobile / WhatsApp</label>
+                <div class="input-wrap">
+                  <input type="tel" id="mobile_whatsapp" name="mobile_whatsapp" inputmode="tel" autocomplete="tel" required />
+                </div>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field full" data-field="business_email">
+                <label for="business_email">Business Email</label>
+                <div class="input-wrap">
+                  <input type="email" id="business_email" name="business_email" required placeholder="nombre@empresa.com" autocomplete="email" />
+                </div>
+                <p class="hint">Se requiere correo corporativo. @gmail, @hotmail y similares no son aceptados.</p>
+                <p class="error-message"></p>
+              </div>
+
+              <div class="field full" data-field="sector">
+                <label for="sector">Sector</label>
+                <div class="input-wrap">
+                  <select id="sector" name="sector" required>
+                    <option value="">Select sector</option>
+                    <option value="Banking">Banking</option>
+                    <option value="Broker Dealer">Broker Dealer</option>
+                    <option value="Insurance & Pension">Insurance & Pension</option>
+                    <option value="Asset Manager">Asset Manager</option>
+                    <option value="Hedge Fund">Hedge Fund</option>
+                    <option value="Family Office">Family Office</option>
+                    <option value="Private Banking">Private Banking</option>
+                    <option value="Investment Banking">Investment Banking</option>
+                    <option value="Quantitative Firm">Quantitative Firm</option>
+                    <option value="Industrial Sector">Industrial Sector</option>
+                    <option value="Corporate Treasury">Corporate Treasury</option>
+                    <option value="Government">Government</option>
+                    <option value="Central Bank">Central Bank</option>
+                    <option value="FinTech">FinTech</option>
+                    <option value="RegTech">RegTech</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <p class="error-message"></p>
+              </div>
+            </div>
+
+            <div class="submit-row">
+              <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="btn-text">Request Information</span>
+              </button>
+              <p class="form-message" id="formMessage" role="alert" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+
+        <div class="success-state" id="successState" aria-live="polite">
+          <div class="success-badge" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 7L10.5 16.5L6 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h2>¡Gracias!</h2>
+          <p class="success-copy">Nos pondremos en contacto contigo a la brevedad. Revisa también tu correo corporativo.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+  <script>
+    (function () {
+      const disposableDomains = new Set([
+        'gmail.com', 'googlemail.com', 'hotmail.com', 'hotmail.co.uk', 'hotmail.fr', 'hotmail.de', 'hotmail.es', 'hotmail.it',
+        'outlook.com', 'outlook.es', 'outlook.co.uk', 'live.com', 'live.com.mx', 'msn.com', 'yahoo.com', 'yahoo.com.mx',
+        'yahoo.co.uk', 'yahoo.es', 'yahoo.fr', 'yahoo.de', 'yahoo.it', 'ymail.com', 'aol.com', 'icloud.com', 'me.com',
+        'mac.com', 'protonmail.com', 'proton.me', 'pm.me', 'zoho.com', 'mail.com', 'gmx.com', 'gmx.de', 'gmx.net',
+        'yandex.com', 'yandex.ru', 'tutanota.com', 'tuta.io', 'fastmail.com', 'hey.com', 'inbox.com', 'rediffmail.com',
+        'qq.com', '163.com', '126.com', 'sina.com', 'naver.com', 'daum.net', 'hanmail.net', 'web.de', 't-online.de',
+        'orange.fr', 'free.fr', 'laposte.net', 'wanadoo.fr', 'libero.it', 'virgilio.it', 'terra.com.mx', 'telmex.net',
+        'prodigy.net.mx', 'att.net', 'sbcglobal.net', 'verizon.net', 'comcast.net', 'rocketmail.com'
+      ]);
+
+      const form = document.getElementById('grialForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const formMessage = document.getElementById('formMessage');
+      const formContent = document.getElementById('formContent');
+      const successState = document.getElementById('successState');
+      const countrySelect = document.getElementById('country');
+      const phoneInput = document.getElementById('mobile_whatsapp');
+      const emailInput = document.getElementById('business_email');
+
+      document.getElementById('source_url').value = window.location.href;
+      window.COURSE_ID = 'SKYNET-1A';
+      document.getElementById('source_name').value = document.title;
+      document.getElementById('lead_id').value = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'lead-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+      const params = new URLSearchParams(window.location.search);
+      const courseFromQuery = params.get('course');
+      const courseFromGlobal = typeof window.COURSE_ID !== 'undefined' ? window.COURSE_ID : '';
+      document.getElementById('source_course').value = courseFromQuery || courseFromGlobal || '';
+
+      let iti = null;
+      if (window.intlTelInput) {
+        iti = window.intlTelInput(phoneInput, {
+          initialCountry: 'auto',
+          nationalMode: false,
+          autoPlaceholder: 'aggressive',
+          separateDialCode: true,
+          preferredCountries: ['us', 'gb', 'mx', 'es', 'ae', 'sg', 'ch'],
+          geoIpLookup: function (callback) {
+            fetch('https://ipapi.co/json/')
+              .then(function (res) { return res.json(); })
+              .then(function (data) { callback((data && data.country_code ? data.country_code : '').toLowerCase() || 'us'); })
+              .catch(function () { callback('us'); });
+          },
+          utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
+        });
+      }
+
+      const fieldConfig = {
+        first_name: { label: 'First Name', required: true },
+        last_name: { label: 'Last Name', required: true },
+        job_title: { label: 'Job Title', required: true },
+        company_name: { label: 'Company Name', required: true },
+        country: { label: 'Country', required: true },
+        mobile_whatsapp: { label: 'Mobile / WhatsApp', required: true },
+        business_email: { label: 'Business Email', required: true },
+        sector: { label: 'Sector', required: true }
+      };
+
+      function normalizeText(value) {
+        return String(value || '').trim();
+      }
+
+      function getFieldWrapper(name) {
+        return document.querySelector('[data-field="' + name + '"]');
+      }
+
+      function setFieldError(name, message) {
+        const wrapper = getFieldWrapper(name);
+        if (!wrapper) return;
+        wrapper.classList.add('has-error');
+        const errorEl = wrapper.querySelector('.error-message');
+        if (errorEl) errorEl.textContent = message;
+      }
+
+      function clearFieldError(name) {
+        const wrapper = getFieldWrapper(name);
+        if (!wrapper) return;
+        wrapper.classList.remove('has-error');
+        const errorEl = wrapper.querySelector('.error-message');
+        if (errorEl) errorEl.textContent = '';
+      }
+
+      function validateEmail(value) {
+        const email = normalizeText(value).toLowerCase();
+        if (!email) return 'Business Email is required.';
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) return 'Please enter a valid business email address.';
+        const domain = email.split('@')[1] || '';
+        if (disposableDomains.has(domain)) {
+          return 'Por favor usa tu correo corporativo. Las direcciones @gmail, @hotmail y similares no son aceptadas.';
+        }
+        return '';
+      }
+
+      function validatePhone() {
+        const rawValue = normalizeText(phoneInput.value);
+        if (!rawValue) {
+          return 'Mobile / WhatsApp is required.';
+        }
+        if (iti && typeof iti.isValidNumber === 'function') {
+          return iti.isValidNumber() ? '' : 'Please enter a valid international phone number.';
+        }
+        return rawValue.length >= 7 ? '' : 'Please enter a valid international phone number.';
+      }
+
+      function validateField(name) {
+        const el = form.elements[name];
+        const value = el ? normalizeText(el.value) : '';
+
+        if (name === 'business_email') {
+          return validateEmail(value);
+        }
+
+        if (name === 'mobile_whatsapp') {
+          return validatePhone();
+        }
+
+        if (fieldConfig[name] && fieldConfig[name].required && !value) {
+          return fieldConfig[name].label + ' is required.';
+        }
+
+        return '';
+      }
+
+      Object.keys(fieldConfig).forEach(function (name) {
+        const el = form.elements[name];
+        if (!el) return;
+        el.addEventListener('input', function () {
+          clearFieldError(name);
+          formMessage.textContent = '';
+        });
+        el.addEventListener('change', function () {
+          clearFieldError(name);
+          formMessage.textContent = '';
+        });
+      });
+
+      function buildPayload() {
+        return {
+          first_name: normalizeText(form.elements.first_name.value),
+          last_name: normalizeText(form.elements.last_name.value),
+          job_title: normalizeText(form.elements.job_title.value),
+          company_name: normalizeText(form.elements.company_name.value),
+          country: normalizeText(countrySelect.value),
+          mobile_whatsapp: iti ? iti.getNumber() : normalizeText(phoneInput.value),
+          business_email: normalizeText(emailInput.value).toLowerCase(),
+          sector: normalizeText(form.elements.sector.value),
+          source_course: document.getElementById('source_course').value,
+          source_url: document.getElementById('source_url').value,
+          source_name: document.getElementById('source_name').value,
+          lead_id: document.getElementById('lead_id').value,
+          created_at: new Date().toISOString()
+        };
+      }
+
+      async function submitLead(payload) {
+        // THE GRIAL PHILOSOPHY: Lead ALWAYS touches our servers first, via Edge Function.
+        // Edge Function → inserts to Supabase DB → fan-out parallel to HubSpot, Monday, Slack, Discord, Make
+        const EDGE_FUNCTION_URL = 'https://bffdsgvgcvmojobfiuay.supabase.co/functions/v1/lead-distributor';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmZmRzZ3ZnY3Ztb2pvYmZpdWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTQ0NzQsImV4cCI6MjA5MDk3MDQ3NH0.7VKn7st3POLRTLIXx9Y4gRjXbh8v_BKXblc7vFIVu-U';
+
+        const resp = await fetch(EDGE_FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await resp.json();
+        // Edge Function returns { ok: true, lead_id: "...", channels: [...] }
+        return data.ok === true;
+      }
+
+      function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        submitBtn.classList.toggle('is-loading', isLoading);
+        submitBtn.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+      }
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        formMessage.textContent = '';
+
+        let firstErrorField = null;
+        let hasErrors = false;
+
+        Object.keys(fieldConfig).forEach(function (name) {
+          const error = validateField(name);
+          if (error) {
+            hasErrors = true;
+            setFieldError(name, error);
+            if (!firstErrorField) firstErrorField = form.elements[name];
+          } else {
+            clearFieldError(name);
+          }
+        });
+
+        if (hasErrors) {
+          if (firstErrorField && typeof firstErrorField.focus === 'function') firstErrorField.focus();
+          return;
+        }
+
+        const payload = buildPayload();
+        setLoading(true);
+
+        try {
+          const ok = await submitLead(payload);
+          if (!ok) {
+            throw new Error('Submission failed');
+          }
+          formContent.style.display = 'none';
+          successState.classList.add('active');
+        } catch (error) {
+          formMessage.textContent = 'Hubo un error al enviar. Por favor intenta de nuevo.';
+        } finally {
+          setLoading(false);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
