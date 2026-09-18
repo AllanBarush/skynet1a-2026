@@ -105,9 +105,14 @@ if ($remotos -match ("(?m)^" + [regex]::Escape($Remoto) + ":")) {
   Aviso 'Si pregunta por Shared Drive / Team Drive, responde: n'
   Info  ''
   Info  'Creando remoto en modo SOLO LECTURA...'
-  rclone config create $Remoto drive scope=$Scope
+  # rclone config create imprime el remoto COMPLETO en stdout al terminar,
+  # token y refresh_token incluidos. El refresh_token no expira solo: quien lo
+  # tenga lee el Drive hasta que se revoque. Se descarta stdout para que no
+  # quede en pantalla ni en un copiado accidental. Los avisos del navegador
+  # van por stderr y se siguen viendo.
+  rclone config create $Remoto drive scope=$Scope | Out-Null
   if ($LASTEXITCODE -ne 0) { Malo 'Fallo la creacion del remoto.'; exit 1 }
-  Ok 'Remoto creado.'
+  Ok 'Remoto creado. El token quedo en rclone.conf, no se imprime aqui.'
 }
 
 # ------------------------------------------------------------------

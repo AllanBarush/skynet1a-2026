@@ -164,6 +164,28 @@ antes de volver a correr.
 
 ---
 
+## Si alguna vez ves el token en pantalla
+
+`rclone config create` imprime el remoto completo al terminar, con `token` y
+`refresh_token` dentro. El bootstrap descarta esa salida, pero si corres el
+comando a mano lo vas a ver.
+
+El `refresh_token` no expira por su cuenta. Si se te escapa en una captura, un
+chat o un log, revócalo y vuelve a autorizar:
+
+1. Entra a https://myaccount.google.com/permissions
+2. Busca **rclone**, quita el acceso
+3. Vuelve a autorizar sin imprimir nada:
+
+```powershell
+rclone config reconnect gdrive: | Out-Null
+```
+
+Revocar invalida el token viejo de inmediato. No afecta las sesiones ya
+consolidadas en el disco.
+
+---
+
 ## Aviso con fecha
 
 rclone avisa que su `client_id` compartido deja de funcionar durante 2026.
