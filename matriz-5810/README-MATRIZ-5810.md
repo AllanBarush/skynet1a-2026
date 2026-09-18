@@ -69,6 +69,25 @@ máquina vino cada carpeta**. El reporte nuevo trae cuatro secciones:
 
 ---
 
+## Qué avisa el bootstrap cuando algo no cuadra
+
+No se limita a correr: verifica y te dice.
+
+- **Si `consolidar-en-5810.ps1` cambió en Drive** desde que se auditó, lo avisa
+  comparando el sha256. No bloquea, pero los hallazgos de abajo podrían ya no
+  aplicar.
+- **Si la consolidación falla**, lo dice con el código de salida en vez de
+  imprimir "terminada". El script se lanza como proceso aparte, así que un fallo
+  suyo no detiene al bootstrap por sí solo: hay que revisar el código de salida
+  a propósito.
+- **Si una máquina de Drive no aporta nada reconocible**, aparece en una sección
+  propia. El escaneo entiende `06-Claude-Trabajo\projects` y
+  `06-Claude-Trabajo\dot-claude\projects`. Un respaldo con otra forma se
+  saltaría en silencio, y un reporte limpio se leería como "esa máquina no traía
+  sesiones". Por eso se nombra explícitamente.
+
+---
+
 ## Auditoría del script original
 
 Se revisó `consolidar-en-5810.ps1` (5367 bytes, sha256

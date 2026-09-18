@@ -139,6 +139,19 @@ $ps1Local = Join-Path $env:USERPROFILE 'consolidar-en-5810.ps1'
 if (-not (Test-Path $ps1Local)) { Malo "No llego $ps1Local"; exit 1 }
 Ok "Herramientas en $env:USERPROFILE"
 
+# El script se ejecuta con -ExecutionPolicy Bypass, asi que conviene saber si
+# cambio desde que se audito. No bloquea: solo avisa.
+$shaAuditado = 'cc01620a97aa6d0922e319c9a59b1094fd9ca520d0a5a4f87abc444746c8f8d2'
+$shaAhora = (Get-FileHash -LiteralPath $ps1Local -Algorithm SHA256).Hash.ToLower()
+if ($shaAhora -eq $shaAuditado) {
+  Ok 'consolidar-en-5810.ps1 coincide con la version auditada.'
+} else {
+  Aviso 'consolidar-en-5810.ps1 CAMBIO en Drive desde la auditoria.'
+  Info  "  auditado: $shaAuditado"
+  Info  "  ahora   : $shaAhora"
+  Info  '  Los hallazgos del README pueden ya no aplicar. Revisalo antes de seguir.'
+}
+
 # ------------------------------------------------------------------
 # 5) Neutralizar el script que SUBE
 # ------------------------------------------------------------------
@@ -173,7 +186,14 @@ if ($SoloReporte) {
   Titulo '6/7  Corriendo la consolidacion original'
   Info 'Se ejecuta consolidar-en-5810.ps1 tal cual viene de Drive.'
   & powershell -NoProfile -ExecutionPolicy Bypass -File $ps1Local
-  Ok 'Consolidacion terminada.'
+  $codigoHijo = $LASTEXITCODE
+  if ($codigoHijo -ne 0) {
+    Malo "La consolidacion fallo (codigo $codigoHijo). NO se completo la fusion."
+    Info 'Revisa consolidacion-5810.log y consolidacion-5810-REPORTE.txt.'
+    Aviso 'Se genera el reporte de procedencia de todos modos, con lo que alcanzo a copiarse.'
+  } else {
+    Ok 'Consolidacion terminada.'
+  }
 }
 
 # ------------------------------------------------------------------
@@ -189,11 +209,11 @@ if (-not (Test-Path $Stage)) { Malo "No existe $Stage. Nada que reportar."; exit
 # sesiones. Contar en recursivo infla el numero; contar solo la raiz es lo
 # correcto. Se reportan por separado para no esconder nada.
 function Contar-Sesiones($dir) {
-  @(Get-ChildItem $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
+  @(Get-ChildItem -LiteralPath $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
 }
 function Contar-Subagentes($dir) {
-  $todos = @(Get-ChildItem $dir -Filter *.jsonl -File -Recurse -ErrorAction SilentlyContinue).Count
-  $raiz  = @(Get-ChildItem $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
+  $todos = @(Get-ChildItem -LiteralPath $dir -Filter *.jsonl -File -Recurse -ErrorAction SilentlyContinue).Count
+  $raiz  = @(Get-ChildItem -LiteralPath $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
   return ($todos - $raiz)
 }
 
@@ -256,6 +276,25 @@ foreach ($m in ($porMaquina.Keys | Sort-Object)) {
   $lineas.Add(("  {0,-32} {1,6} sesiones" -f $m, $porMaquina[$m]))
 }
 $lineas.Add('')
+
+# --- maquinas que estan en Drive pero no aportaron nada reconocible ---
+# El escaneo solo entiende <maquina>\06-Claude-Trabajo\projects y
+# ...\dot-claude\projects. Si un respaldo tiene otra forma, hay que decirlo:
+# un reporte limpio no debe leerse como "esa maquina no traia sesiones".
+$sinReconocer = @()
+foreach ($md in $maquinasDrive) {
+  if ($md -eq '_CONSOLIDAR') { continue }
+  if (-not $porMaquina.ContainsKey($md)) { $sinReconocer += $md }
+}
+if ($sinReconocer.Count -gt 0) {
+  $lineas.Add('--- MAQUINAS EN DRIVE SIN SESIONES RECONOCIDAS ---')
+  $lineas.Add('  Estan en CLON-PC pero su respaldo no tiene la forma esperada')
+  $lineas.Add('  (06-Claude-Trabajo\projects o 06-Claude-Trabajo\dot-claude\projects).')
+  $lineas.Add('  NO concluyas que no traian sesiones: revisa su carpeta a mano en')
+  $lineas.Add("    $Stage")
+  foreach ($md in $sinReconocer) { $lineas.Add("    - $md") }
+  $lineas.Add('')
+}
 
 # --- carpetas que aparecen en mas de una maquina ---
 $compartidas = $mapa.Keys | Where-Object { ($mapa[$_] | Select-Object -ExpandProperty Maquina -Unique).Count -gt 1 }
