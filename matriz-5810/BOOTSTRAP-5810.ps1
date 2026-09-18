@@ -183,6 +183,20 @@ Titulo '7/7  Reporte de procedencia: que carpeta vino de que maquina'
 
 if (-not (Test-Path $Stage)) { Malo "No existe $Stage. Nada que reportar."; exit 1 }
 
+# Un transcript de SESION es un <uuid>.jsonl suelto en la raiz de la carpeta
+# de proyecto. Lo que cuelga mas abajo (subagents\..., agent-*.jsonl,
+# journal.jsonl) son transcripts de SUBAGENTE, marcados isSidechain, y no son
+# sesiones. Contar en recursivo infla el numero; contar solo la raiz es lo
+# correcto. Se reportan por separado para no esconder nada.
+function Contar-Sesiones($dir) {
+  @(Get-ChildItem $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
+}
+function Contar-Subagentes($dir) {
+  $todos = @(Get-ChildItem $dir -Filter *.jsonl -File -Recurse -ErrorAction SilentlyContinue).Count
+  $raiz  = @(Get-ChildItem $dir -Filter *.jsonl -File -ErrorAction SilentlyContinue).Count
+  return ($todos - $raiz)
+}
+
 # mapa: carpeta de proyecto -> lista de { maquina, ruta, sesiones }
 $mapa = @{}
 $usuariosVistos = @{}
@@ -202,12 +216,14 @@ foreach ($maq in Get-ChildItem $Stage -Directory) {
     if (-not (Test-Path $c.Ruta)) { continue }
     foreach ($pf in Get-ChildItem $c.Ruta -Directory) {
       $n = $pf.Name
-      $ses = (Get-ChildItem $pf.FullName -Filter *.jsonl -File -Recurse -ErrorAction SilentlyContinue).Count
+      $ses = Contar-Sesiones $pf.FullName
+      $sub = Contar-Subagentes $pf.FullName
       if (-not $mapa.ContainsKey($n)) { $mapa[$n] = @() }
       $mapa[$n] += [pscustomobject]@{
         Maquina  = $maq.Name
         Origen   = $c.Etiqueta
         Sesiones = $ses
+        Subagentes = $sub
       }
       # Deteccion de usuario ajeno SIN depender de una lista de carpetas conocidas.
       if ($n -match '^[A-Za-z]--Users-(.+)$') {
@@ -256,9 +272,10 @@ $lineas.Add('')
 
 # --- detalle completo ---
 $lineas.Add('--- DETALLE: CADA CARPETA Y SU MAQUINA DE ORIGEN ---')
+$lineas.Add('  ses. = sesiones reales | sub. = transcripts de subagente (no son sesiones)')
 foreach ($k in ($mapa.Keys | Sort-Object)) {
   foreach ($e in $mapa[$k]) {
-    $lineas.Add(("  {0,-28} {1,-22} {2,4} ses.  {3}" -f $e.Maquina, $e.Origen, $e.Sesiones, $k))
+    $lineas.Add(("  {0,-28} {1,-22} {2,4} ses. {3,5} sub.  {4}" -f $e.Maquina, $e.Origen, $e.Sesiones, $e.Subagentes, $k))
   }
 }
 $lineas.Add('')
@@ -279,12 +296,12 @@ $lineas.Add('')
 # --- totales reales en destino ---
 if (Test-Path (Join-Path $Target 'projects')) {
   $destProj = Get-ChildItem (Join-Path $Target 'projects') -Directory -ErrorAction SilentlyContinue
-  $destSes = ($destProj | ForEach-Object {
-      (Get-ChildItem $_.FullName -Filter *.jsonl -File -Recurse -ErrorAction SilentlyContinue).Count
-    } | Measure-Object -Sum).Sum
+  $destSes = ($destProj | ForEach-Object { Contar-Sesiones $_.FullName } | Measure-Object -Sum).Sum
+  $destSub = ($destProj | ForEach-Object { Contar-Subagentes $_.FullName } | Measure-Object -Sum).Sum
   $lineas.Add('=== TOTAL EN ESTA MAQUINA ===')
   $lineas.Add(("  Carpetas de proyecto : {0}" -f $destProj.Count))
-  $lineas.Add(("  Sesiones (.jsonl)    : {0}" -f $destSes))
+  $lineas.Add(("  SESIONES             : {0}" -f $destSes))
+  $lineas.Add(("  (transcripts de subagente, aparte: {0})" -f $destSub))
 } else {
   $lineas.Add('=== TOTAL EN ESTA MAQUINA ===')
   $lineas.Add('  (todavia no se ha fusionado nada: corriste en modo -SoloReporte)')

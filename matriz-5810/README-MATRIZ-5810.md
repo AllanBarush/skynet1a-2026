@@ -32,7 +32,7 @@ El reporte queda en `%USERPROFILE%\MATRIZ-5810-PROCEDENCIA.txt`.
 | 1 | Instala rclone con winget si falta | Reconstruye el PATH; si aun así no aparece, pide reabrir PowerShell |
 | 2 | Crea el remoto `gdrive` | **`scope=drive.readonly`** por defecto |
 | 3 | Verifica `rclone lsd gdrive:CLON-PC` | Aborta si no se ve |
-| 4 | Baja las herramientas de `_CONSOLIDAR` | Solo los 3 archivos que hacen falta |
+| 4 | Baja las herramientas de `_CONSOLIDAR` | Solo los 3 archivos que hacen falta. Caen en la raíz de tu carpeta de usuario y **se sobrescriben** si ya existen ahí: no edites esas copias, la de Drive manda |
 | 5 | Desactiva cualquier `subir-claude-a-drive.cmd` | Lo renombra a `.BLOQUEADO-EN-LA-MATRIZ` |
 | 6 | Corre `consolidar-en-5810.ps1` **sin modificarlo** | El comportamiento que ya conoces |
 | 7 | Genera el reporte de procedencia | Carpeta → máquina de origen |
@@ -79,8 +79,9 @@ Se revisó `consolidar-en-5810.ps1` (5367 bytes, sha256
 - `rclone copy gdrive:CLON-PC <local>` es descarga pura. `copy` no borra en
   destino ni escribe en origen. La regla se respeta.
 - `robocopy /E /XC /XN /XO` copia únicamente archivos que no existen en
-  destino. Es aditivo de verdad.
-- El merge de transcripts salta cualquier archivo que ya exista. No machaca.
+  destino. Es el idiom documentado por Microsoft para "solo lo nuevo".
+- El merge de transcripts salta cualquier archivo que ya exista. No machaca
+  nada de lo que ya está en el disco de la 5810.
 - `.claude.json` no se toca. Quedan copias `.claude.json.DE-<maquina>`.
 - No renombra carpetas de proyecto, a propósito.
 
@@ -89,10 +90,17 @@ Se revisó `consolidar-en-5810.ps1` (5367 bytes, sha256
 **1. No reporta procedencia.** Es el hueco que más importa: no hay forma de
 saber de qué máquina vino cada carpeta. Resuelto por el paso 7.
 
-**2. El conteo de sesiones subestima.** `Get-ChildItem -Filter *.jsonl`
-sin `-Recurse` solo cuenta los `.jsonl` que están sueltos en la raíz de cada
-carpeta de proyecto. El reporte nuevo usa `-Recurse`, así que los dos números
-pueden no coincidir. El bueno es el del reporte nuevo.
+**2. El conteo de sesiones es frágil, y el arreglo obvio es peor.**
+`Get-ChildItem -Filter *.jsonl` sin `-Recurse` solo cuenta los `.jsonl` sueltos
+en la raíz de cada carpeta de proyecto.
+
+La tentación es agregar `-Recurse`. Sería un error. Claude Code guarda bajo
+`<proyecto>/<sesión>/subagents/.../agent-*.jsonl` los transcripts de subagente,
+marcados `isSidechain`, que **no son sesiones**. Medido en una instalación viva:
+1 sesión real contra 17 archivos `.jsonl`. Recursivo infla el número 17 veces.
+
+El reporte nuevo cuenta sesiones solo en la raíz, que es lo correcto, y reporta
+los transcripts de subagente en una columna aparte para no esconderlos.
 
 **3. La detección de usuarios ajenos tiene un hueco.** El regex solo marca a
 un usuario ajeno cuando el segmento que sigue al nombre es uno de estos seis:
@@ -101,12 +109,21 @@ carpeta como `C--Users-Ricardo-Villa-Downloads-...` se copia en silencio, sin
 aviso. El reporte nuevo no depende de esa lista: lee el usuario de la ruta
 codificada sin importar qué siga.
 
-**4. `TrimStart('')` no hace lo que parece.** En .NET, `TrimStart` con un
+**4. "Aditivo" protege tu disco, no tu restauración.** Tanto el merge de
+transcripts como `robocopy /XC /XN /XO` descartan en silencio todo archivo del
+respaldo cuyo nombre ya exista localmente, sin mirar tamaño ni contenido. Para
+los transcripts no importa: se llaman por UUID y no chocan. Donde sí importa es
+en `plugins`, `skill-hub` y `backups`, donde los nombres sí se repiten: si la
+5810 ya tiene un archivo con ese nombre, la versión del respaldo se pierde sin
+aviso. Es el comportamiento correcto para "no machacar", pero conviene saber
+que el sentido de la protección apunta al disco local, no al respaldo.
+
+**5. `TrimStart('')` no hace lo que parece.** En .NET, `TrimStart` con un
 arreglo vacío quita espacios en blanco, no la diagonal invertida. La intención
 era `TrimStart('\')`. Funciona de todos modos porque `Join-Path` colapsa el
 separador duplicado. Es un bug latente, no un bloqueo. No se modificó.
 
-**5. El reporte se sobrescribe en cada corrida.** `Set-Content` al inicio borra
+**6. El reporte se sobrescribe en cada corrida.** `Set-Content` al inicio borra
 el reporte anterior. Si quieres conservar el historial, respalda el archivo
 antes de volver a correr.
 
